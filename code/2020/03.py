@@ -23,14 +23,15 @@ def check_trees(data, slope):
     trees = 0
     total_lines = int(len(data))
     map = build_map(data, total_lines, slope)
-    for line in map:
-        if current_pos[0] == 0:
-            current_pos[0] = 1
-        elif line[current_pos[0]-1] == "#":
-            trees = trees + 1
+    for i, line in enumerate(map, start=1):
+        if i % slope[1] == 0:
+            if current_pos[0] == 0:
+                current_pos[0] = 1
+            elif line[current_pos[0]-1] == "#":
+                trees = trees + 1
 
-        current_pos[0] = current_pos[0] + slope[0]
-        current_pos[1] = current_pos[1] + slope[1]
+            current_pos[0] = current_pos[0] + slope[0]
+            current_pos[1] = current_pos[1] + slope[1]
 
     return trees
 
@@ -74,7 +75,6 @@ def part_two():
         breakpoint()
         product = product * trees
     print(product)
-
 
 
 def test_check_trees():
