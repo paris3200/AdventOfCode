@@ -9,7 +9,7 @@ def calculate_fuel(mass):
         return fuel + calculate_fuel(fuel)
 
 
-with open("01_input.txt", "r") as payload:
+with open("data/01_input.txt", "r") as payload:
     total_fuel = 0
     for line in payload:
         total_fuel += calculate_fuel(int(line))
