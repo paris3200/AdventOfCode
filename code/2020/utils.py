@@ -14,6 +14,13 @@ def read_file(filename, datatype):
             return code
 
 
+def read_lines(filename):
+    with open(filename, "r") as f:
+        data = f.readlines()
+
+    return data
+
+
 def list_from_string(text):
     text = text.strip()
     return list(text.split(","))
