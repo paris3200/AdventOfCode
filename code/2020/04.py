@@ -152,7 +152,6 @@ def create_passports(filename):
 
 
 def split_line(line):
-    line = line.strip("\n")
     fields = line.split(" ")
     return fields
 

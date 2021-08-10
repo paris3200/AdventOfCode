@@ -18,6 +18,9 @@ def read_lines(filename):
     with open(filename, "r") as f:
         data = f.readlines()
 
+    for index, line in enumerate(data):
+        if line != "\n":
+            data[index] = line.strip("\n")
     return data
 
 
