@@ -1,4 +1,4 @@
-import code.utils as utils
+import utils
 
 
 class Computer:
@@ -42,7 +42,7 @@ class Computer:
 
 
 def part_one():
-    code = utils.read_file("data/02_input.txt", "list")
+    code = utils.read_file("data/02.data", "list")
 
     # Reset to 1202 Program State
     code[1] = 12
@@ -52,7 +52,7 @@ def part_one():
 
 
 def part_two():
-    code = utils.read_file("data/02_input.txt", "list")
+    code = utils.read_file("data/02.data", "list")
 
     wopr = Computer(code)
     inputs = wopr.calculate_solution(19690720)
