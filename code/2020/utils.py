@@ -20,7 +20,7 @@ def read_lines(filename):
 
     for index, line in enumerate(data):
         if line != "\n":
-            data[index] = line.strip("\n")
+            data[index] = line.rstrip().strip("\n")
     return data
 
 
