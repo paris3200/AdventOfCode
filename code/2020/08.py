@@ -1,19 +1,15 @@
 import utils
 
 
-
-class Compiler():
-
+class Compiler:
     def __init__(self, program):
         self.accumaltor = 0
         self.current_index = 0
         self.commands_run = []
         self.program = program
-        
 
     def excute_program(self):
         return self.execute_instruction(self.parse_instruction(self.program[0]))
-
 
     def parse_instruction(self, instruction):
         split = instruction.split()
@@ -21,7 +17,6 @@ class Compiler():
         command["type"] = split[0]
         command["argument"] = int(split[1])
         return command
-
 
     def execute_instruction(self, instruction):
 
@@ -40,15 +35,16 @@ class Compiler():
         elif instruction["type"] == "nop":
             self.current_index += 1
 
-        return self.execute_instruction(self.parse_instruction(self.program[self.current_index]))
+        return self.execute_instruction(
+            self.parse_instruction(self.program[self.current_index])
+        )
+
 
 def part_one(data):
     print("Part One")
     program = utils.read_lines(data)
     compiler = Compiler(program)
     return compiler.excute_program()
-
-
 
 
 def part_two(data):
