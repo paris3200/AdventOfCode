@@ -25,7 +25,7 @@ class Compiler:
 
     def excute_program(self):
         result = self.execute_instruction(self.parse_instruction(self.program[0]))
-        if result == "False":
+        if result == False:
             self.reset_compliler()
             return self.excute_program()
         else:
@@ -67,7 +67,7 @@ class Compiler:
 
             if self.current_index in self.commands_run:
                 # The incorrect command was changed reset and rerun
-                return "False"
+                return False
 
             if instruction["type"] == "acc":
 
