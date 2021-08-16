@@ -12,19 +12,21 @@ class Compiler:
         if self.bootable:
             self.original_program = program.copy()
             self.commands_changed = []
-            self.booted = False
-            self.changed = False
+            self.reset_compliler()
 
-    def excute_program(self):
-        result = self.execute_instruction(self.parse_instruction(self.program[0]))
-        if result == "False":
+
+    def reset_compliler(self):
             self.program = self.original_program.copy()
-            self.booted = False
             self.changed = False
             self.commands_run = []
             self.accumaltor = 0
             self.current_index = 0
 
+
+    def excute_program(self):
+        result = self.execute_instruction(self.parse_instruction(self.program[0]))
+        if result == "False":
+            self.reset_compliler()
             return self.excute_program()
         else:
             return result
