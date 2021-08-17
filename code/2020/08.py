@@ -14,14 +14,12 @@ class Compiler:
             self.commands_changed = []
             self.reset_compliler()
 
-
     def reset_compliler(self):
-            self.program = self.original_program.copy()
-            self.changed = False
-            self.commands_run = []
-            self.accumaltor = 0
-            self.current_index = 0
-
+        self.program = self.original_program.copy()
+        self.changed = False
+        self.commands_run = []
+        self.accumaltor = 0
+        self.current_index = 0
 
     def excute_program(self):
         result = self.execute_instruction(self.parse_instruction(self.program[0]))
@@ -31,8 +29,6 @@ class Compiler:
         else:
             return result
 
-
-
     def parse_instruction(self, instruction):
         split = instruction.split()
         command = {}
@@ -41,41 +37,29 @@ class Compiler:
         return command
 
     def execute_instruction(self, instruction):
+        if self.current_index in self.commands_run:
+            if not self.bootable:
+                return self.accumaltor
+            else:
+                return False
+        else:
+            self.commands_run.append(self.current_index)
+
+        if instruction["type"] == "acc":
+            self.accumaltor += instruction["argument"]
+            self.current_index += 1
 
         if not self.bootable:
 
-            if self.current_index not in self.commands_run:
-                self.commands_run.append(self.current_index)
-            else:
-                return self.accumaltor
-
-            if instruction["type"] == "acc":
-                self.accumaltor += instruction["argument"]
-                self.current_index += 1
-
-            elif instruction["type"] == "jmp":
+            if instruction["type"] == "jmp":
                 self.current_index += instruction["argument"]
 
             elif instruction["type"] == "nop":
                 self.current_index += 1
 
-            return self.execute_instruction(
-                self.parse_instruction(self.program[self.current_index])
-            )
-
         if self.bootable:
 
-            if self.current_index in self.commands_run:
-                # The incorrect command was changed reset and rerun
-                return False
-
-            if instruction["type"] == "acc":
-
-                self.accumaltor += instruction["argument"]
-                self.commands_run.append(self.current_index)
-                self.current_index += 1
-
-            elif instruction["type"] == "jmp":
+            if instruction["type"] == "jmp":
                 if (
                     self.changed is False
                     and self.current_index not in self.commands_changed
@@ -84,10 +68,10 @@ class Compiler:
                     self.changed = True
                     self.program[self.current_index] = f"nop {instruction['argument']}"
                     self.commands_changed.append(self.current_index)
+                    self.commands_run.remove(self.current_index)
 
                 else:
 
-                    self.commands_run.append(self.current_index)
                     self.current_index += instruction["argument"]
 
             elif instruction["type"] == "nop":
@@ -101,18 +85,18 @@ class Compiler:
                     self.changed = True
                     self.program[self.current_index] = f"jmp {instruction['argument']}"
                     self.commands_changed.append(self.current_index)
+                    self.commands_run.remove(self.current_index)
 
                 else:
                     self.commands_run.append(self.current_index)
                     self.current_index += 1
 
-            try:
-                return self.execute_instruction(
-                    self.parse_instruction(self.program[self.current_index])
-                )
-            except IndexError:
-                return self.accumaltor
-
+        try:
+            return self.execute_instruction(
+                self.parse_instruction(self.program[self.current_index])
+            )
+        except IndexError:
+            return self.accumaltor
 
 
 def part_one(data):
@@ -134,10 +118,12 @@ def test_part_one():
     result = part_one(data)
     assert result == 5
 
+
 def test_part_one_real_data():
     data = "data/08.data"
     result = part_one(data)
     assert result == 1584
+
 
 def test_part_two():
     data = "data/08_tests.data"
@@ -149,6 +135,7 @@ def test_part_two_real_data():
     data = "data/08.data"
     result = part_two(data)
     assert result == 920
+
 
 def test_parse_instructions():
     program = utils.read_lines("data/08_tests.data")
