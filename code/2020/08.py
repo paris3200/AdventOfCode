@@ -3,6 +3,35 @@ import utils
 
 class Compiler:
     def __init__(self, program, bootable=False):
+        """
+        A compiler for Advent of Code 2020, day 8.
+
+        Sets of the compiler to be run
+
+        Parameters
+        ----------
+        program : list
+            The list of instructions to be run.
+        bootable : bool, default=False
+            If the program should result in a bootable program.
+
+        Attributes
+        ----------
+        program : list
+            The list of instructions to be run.
+        bootable : bool, default=False
+            If the program should result in a bootable program.
+        accumaltor : int
+            The value of the accaltor at the current point of the program.
+        current_index : int
+            The current index position in the program list.
+        commands_run : list
+            A list of the commands previously run for the current program execution.
+        original_program : list
+            A copy of the original program to be used to reset the compiler.
+        commands_changed : list
+            The program commands changed which failed to boot.
+        """
         self.accumaltor = 0
         self.current_index = 0
         self.commands_run = []
@@ -15,6 +44,9 @@ class Compiler:
             self.reset_compliler()
 
     def reset_compliler(self):
+        """
+        Reset the compiler to process a new program.
+        """
         self.program = self.original_program.copy()
         self.changed = False
         self.commands_run = []
@@ -23,13 +55,28 @@ class Compiler:
 
     def excute_program(self):
         result = self.execute_instruction(self.parse_instruction(self.program[0]))
-        if result == False:
+        if result is False:
             self.reset_compliler()
             return self.excute_program()
         else:
             return result
 
-    def parse_instruction(self, instruction):
+    def parse_instruction(self, instruction: str) -> dict:
+        """
+        Converts an instruction string to a dict.
+
+
+        Parameters
+        ----------
+        instruction : str
+            i.e. "jmp +4"
+
+        Returns
+        -------
+        dict:
+            ["type"] -> str: type of command (acc, jmp, nop)
+            ["instruction"] -> int:  action to be taken (+99)
+        """
         split = instruction.split()
         command = {}
         command["type"] = split[0]
