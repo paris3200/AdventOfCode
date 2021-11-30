@@ -1,9 +1,9 @@
-import utils
+from utils import read_file
 
 
 def part_one(data):
     print(f"Part One")
-    print(multiple_numbers_in_list(get_two_numbers_that_sum(data, 2020)))
+    return multiple_numbers_in_list(get_two_numbers_that_sum(data, 2020))
 
 
 def get_two_numbers_that_sum(data, sum):
@@ -28,9 +28,9 @@ def multiple_numbers_in_list(data):
     return product
 
 
-def part_two(d):
+def part_two(data):
     print(f"Part Two")
-    print(multiple_numbers_in_list(get_three_numbers_that_sum(data, 2020)))
+    return multiple_numbers_in_list(get_three_numbers_that_sum(data, 2020))
 
 
 def test_get_two_numbers_that_sum():
@@ -48,6 +48,6 @@ def test_multiple_numbers():
 
 if __name__ == "__main__":
 
-    data = utils.read_file("data/01.data", "list")
-    part_one(data)
-    part_two(data)
+    data = read_file("data/01.data", "list")
+    print(f"  {part_one(data)}")
+    print(f"  {part_two(data)}")
