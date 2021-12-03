@@ -1,18 +1,17 @@
 import utils
 
 
-def part_one():
-    print("Part One")
+def part_one(data):
+    pass
 
 
-def part_two():
-    print("Part Two")
+def part_two(data):
+    pass
 
 
-def test_part_one():
+def test_part_one(data):
     result = part_one(data)
     assert result is True
-
 
 def test_part_two(data):
     result = part_two(data)
@@ -21,5 +20,7 @@ def test_part_two(data):
 
 if __name__ == "__main__":
     data = "data/xx.data"
-    part_one(data)
-    part_two(data)
+    print("Part One")
+    print(part_one(data))
+    print("Part Two")
+    print(part_two(data))
