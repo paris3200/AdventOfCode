@@ -27,9 +27,8 @@ def part_two(data):
 def oxygen_generator_rating(input, digitplace=0):
     position = flatten_list(input)
     max = most_frequent(position[digitplace])
-    min = least_frequent(position[digitplace])
 
-    if max == min:
+    if max == "-":
         keep_digit = "1"
     else:
         keep_digit = max
@@ -43,10 +42,9 @@ def oxygen_generator_rating(input, digitplace=0):
 
 def co2_scrubber_rating(input, digitplace=0):
     position = flatten_list(input)
-    max = most_frequent(position[digitplace])
     min = least_frequent(position[digitplace])
 
-    if max == min:
+    if min == "-":
         keep_digit = "0"
     else:
         keep_digit = min
@@ -82,12 +80,38 @@ def filter_list(rawlist, place, digit):
 
 def most_frequent(input):
     """Returns the most frequently occuring item on a list."""
-    return max(set(input), key=input.count)
+    on = 0
+    off = 0
+    for x in input:
+        if x == "1":
+            on += 1
+        else:
+            off += 1
+
+    if on == off:
+        return "-"
+    elif on > off:
+        return "1"
+    else:
+        return "0"
 
 
 def least_frequent(input):
     """Returns the least frequently occuring item on a list."""
-    return min(set(input), key=input.count)
+    on = 0
+    off = 0
+    for x in input:
+        if x == "1":
+            on += 1
+        else:
+            off += 1
+
+    if on == off:
+        return "-"
+    elif on > off:
+        return "0"
+    else:
+        return "1"
 
 
 def convert(binary):
@@ -164,6 +188,9 @@ def test_part_two():
 
     result = part_two("data/03_test_2.data")
     assert result == 15
+
+    result = part_two("data/03.data")
+    assert result == 3385170
 
 
 def test_binary_conversion():
