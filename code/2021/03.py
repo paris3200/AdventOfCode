@@ -10,8 +10,8 @@ def part_one(data):
     position = flatten_list(report)
 
     for digit in position:
-        gama += most_frequent(digit)
-        epislon += least_frequent(digit)
+        gama += most_frequent(digit.copy())
+        epislon += least_frequent(digit.copy())
 
     return convert(gama) * convert(epislon)
 
@@ -21,16 +21,18 @@ def part_two(data):
     oxygen = oxygen_generator_rating(report)
     co2 = co2_scrubber_rating(report)
 
-    return (convert(oxygen) * convert(co2))
+    return convert(oxygen) * convert(co2)
 
 
 def oxygen_generator_rating(input, digitplace=0):
     position = flatten_list(input)
+    max = most_frequent(position[digitplace])
+    min = least_frequent(position[digitplace])
 
-    if len(input) == 2:
+    if max == min:
         keep_digit = "1"
     else:
-        keep_digit = most_frequent(position[digitplace])
+        keep_digit = max
 
     keep_list = filter_list(input, digitplace, keep_digit)
     if len(keep_list) == 1:
@@ -41,11 +43,13 @@ def oxygen_generator_rating(input, digitplace=0):
 
 def co2_scrubber_rating(input, digitplace=0):
     position = flatten_list(input)
+    max = most_frequent(position[digitplace])
+    min = least_frequent(position[digitplace])
 
-    if len(input) == 2:
+    if max == min:
         keep_digit = "0"
     else:
-        keep_digit = least_frequent(position[digitplace])
+        keep_digit = min
 
     keep_list = filter_list(input, digitplace, keep_digit)
 
@@ -62,9 +66,7 @@ def flatten_list(rawlist):
 
     for reading in rawlist:
         for i, value in enumerate(list(reading)):
-            position[i].append(value)
-
-    return position
+            position[i].append(value) return position
 
 
 def filter_list(rawlist, place, digit):
@@ -116,6 +118,15 @@ def test_oxygen_generator_rating():
         == "10111"
     )
 
+    data = "data/03_test_2.data"
+    input = utils.read_file(data, "list", False)
+    assert (
+        oxygen_generator_rating(
+            input,
+        )
+        == "1111"
+    )
+
 
 def test_co2_scrubber_rating():
     data = "data/03_test.data"
@@ -125,6 +136,15 @@ def test_co2_scrubber_rating():
             input,
         )
         == "01010"
+    )
+
+    data = "data/03_test_2.data"
+    input = utils.read_file(data, "list", False)
+    assert (
+        co2_scrubber_rating(
+            input,
+        )
+        == "0001"
     )
 
 
@@ -139,6 +159,9 @@ def test_part_one():
 def test_part_two():
     result = part_two("data/03_test.data")
     assert result == 230
+
+    result = part_two("data/03_test_2.data")
+    assert result == 15
 
 
 def test_binary_conversion():
