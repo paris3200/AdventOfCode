@@ -1,7 +1,7 @@
 import matplotlib.pyplot as plt
 
 
-def read_file(filename, datatype, int=True):
+def read_file(filename, datatype, integer=True):
     with open(filename, "r") as procedure:
 
         if datatype == "list":
@@ -10,7 +10,7 @@ def read_file(filename, datatype, int=True):
                 data = line.strip().split(",")
 
                 for num in data:
-                    if int:
+                    if integer:
                         code.append(int(num))
                     else:
                         code.append(num)
