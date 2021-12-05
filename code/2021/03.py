@@ -66,7 +66,9 @@ def flatten_list(rawlist):
 
     for reading in rawlist:
         for i, value in enumerate(list(reading)):
-            position[i].append(value) return position
+            position[i].append(value) 
+
+    return position
 
 
 def filter_list(rawlist, place, digit):
