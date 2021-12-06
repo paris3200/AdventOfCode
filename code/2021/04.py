@@ -50,6 +50,10 @@ class Bingoboard:
         self.board.append(row)
 
     def mark_number(self, number):
+        """
+        Checks to see if the drawn number is on the board.
+        If it is, then updates the matched array at that coordinate.
+        """
         xcor = ""
         ycor = ""
         for x, row in enumerate(self.board):
@@ -106,9 +110,17 @@ class Bingoboard:
 
     def __repr__(self):
         board = ""
-        for row in self.board:
-            board += str(row) + "\n"
-        board += "\n"
+        for y, row in enumerate(self.board):
+            for x, col in enumerate(row):
+                if self.matched[y][x] == 1:
+                    board += " x "
+                else:
+                    if len(str(col)) == 1:
+                        board += " " + str(col) + " "
+                    else:
+                        board += str(col) + " "
+
+            board += "\n"
         return board
 
 
@@ -189,7 +201,7 @@ def test_part_one_with_sample_data_v2():
 
 
 @pytest.mark.skip()
-def test_part_one_with_sample_data():
+def test_part_one_with_problem_set():
     data = "data/04.data"
     result = part_one(data)
     assert result.get_score() != 24814
@@ -204,7 +216,10 @@ def test_part_two():
 
 if __name__ == "__main__":
     data = "data/04.data"
-    print("Part One")
-    print(part_one(data).get_score())
-    print("Part Two")
-    print(part_two(data))
+    print("Part One \n")
+    print("    Bingo!")
+    board = part_one(data)
+    print(board)
+    print("Winning Number: " + str(board.last_number))
+    print("Board Sum: " + str(board.get_sums()))
+    print("Total Score: " + str(board.get_score()))
