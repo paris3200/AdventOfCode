@@ -11,8 +11,11 @@ def setup_game(filename):
         drawn_numbers.append(int(num))
 
     boards = []
+
+    # Required so first board starts at index 0
     current_board = -1
-    for index, line in enumerate(data):
+
+    for line in data:
         if line == "\n":
             current_board += 1
             boards.append(Bingoboard())
@@ -26,8 +29,7 @@ def setup_game(filename):
     for num in drawn_numbers:
         marked_nums.append(num)
         for board in boards:
-            board.mark_number(num)
-            if board.bingo is True:
+            if board.mark_number(num) is True:
                 return board
 
 
