@@ -28,7 +28,7 @@ def create_line(start, stop):
 
 def get_list_limits(coordinates):
     """
-    Determines the x,y coordinates of the lower right corner of a grid 
+    Determines the x,y coordinates of the lower right corner of a grid
     that will contain all points in the coordinates list.
 
     Args:
@@ -46,3 +46,22 @@ def get_list_limits(coordinates):
             y = point[1]
 
     return [x, y]
+
+
+def create_grid(end_point):
+    """
+    Creates a grid starting at [0,0] and going to the endpoint.
+
+    Args:
+        end_point (list): Coordinate of lower right point in the grid.
+
+    Returns:
+        list: Grid with `.` at each point on the grid.
+    """
+    grid = []
+    for x in range(0, end_point[1] + 1):
+        row = []
+        for x in range(0, end_point[1] + 1):
+            row.append(".")
+        grid.append(row)
+    return grid
