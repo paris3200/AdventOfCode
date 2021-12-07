@@ -1,9 +1,6 @@
-import pytest
-
-
 class Bingo:
     def __init__(self, filename):
-        self.boards = []
+        self.cards = []
         self.number_pool = []
         self.marked_numbers = []
         self.winner = None
@@ -16,39 +13,39 @@ class Bingo:
         for num in first_line.strip().split(","):
             self.number_pool.append(int(num))
 
-        current_board = -1
+        current_card = -1
 
         for line in data:
             if line == "\n":
-                current_board += 1
-                self.boards.append(BingoCard())
+                current_card += 1
+                self.cards.append(BingoCard())
             else:
                 row = line.rstrip().split()
                 for x, num in enumerate(row):
                     row[x] = int(num)
-                self.boards[current_board].add_row(row)
+                self.cards[current_card].add_row(row)
 
     def play(self):
-        if len(self.boards) > 0 and len(self.number_pool) > 0:
+        if len(self.cards) > 0 and len(self.number_pool) > 0:
             self.draw_number(self.number_pool[0])
 
     def draw_number(self, number):
         self.number_pool.remove(number)
         self.marked_numbers.append(number)
-        for board in self.boards:
-            board.mark_number(number)
-            if board.bingo:
+        for card in self.cards:
+            card.mark_number(number)
+            if card.bingo:
                 if self.winner is None:
-                    self.winner = board
-                if len(self.boards) == 1:
-                    self.loser = board
-                self.boards.remove(board)
+                    self.winner = card
+                if len(self.cards) == 1:
+                    self.loser = card
+                self.cards.remove(card)
         self.play()
 
 
 class BingoCard:
     def __init__(self):
-        self.board = []
+        self.card = []
         self.matched = [
             [0, 0, 0, 0, 0],
             [0, 0, 0, 0, 0],
@@ -62,7 +59,7 @@ class BingoCard:
         self.checked_numbers = []
 
     def add_row(self, row):
-        self.board.append(row)
+        self.card.append(row)
 
     def mark_number(self, number):
         """
@@ -72,7 +69,7 @@ class BingoCard:
         self.checked_numbers.append(number)
         xcor = ""
         ycor = ""
-        for x, row in enumerate(self.board):
+        for x, row in enumerate(self.card):
             for y, col in enumerate(row):
                 if col == number:
                     xcor = x
@@ -115,7 +112,7 @@ class BingoCard:
         for y, row in enumerate(self.matched):
             for x, col in enumerate(row):
                 if col == 0:
-                    sum += self.board[y][x]
+                    sum += self.card[y][x]
         return sum
 
     def get_score(self):
@@ -124,7 +121,7 @@ class BingoCard:
 
     def __repr__(self):
         board = ""
-        for y, row in enumerate(self.board):
+        for y, row in enumerate(self.card):
             for x, col in enumerate(row):
                 if self.matched[y][x] == 1:
                     board += " x "

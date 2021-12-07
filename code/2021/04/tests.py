@@ -3,6 +3,7 @@ import pytest
 from aoc_d4 import BingoCard
 from aoc_d4 import Bingo
 
+
 def test_card_with_bingo_marked_bingo_and_scored():
     card = [
         [14, 21, 17, 24, 4],
@@ -192,7 +193,7 @@ def test_part_two_with_sample_data():
         16,
         13,
     ]
-    loser_board = [
+    loser_card = [
         [3, 15, 0, 2, 22],
         [9, 18, 13, 17, 5],
         [19, 8, 7, 25, 23],
@@ -206,11 +207,10 @@ def test_part_two_with_sample_data():
         [0, 1, 1, 1, 1],
         [1, 1, 1, 0, 0],
     ]
-    assert board.board == loser_board
-    # assert board.matched == matched
+    assert board.card == loser_card
     assert board.last_number == 13
-    # assert board.get_sum() == 148
-    # assert board.get_score() == 1924
+    assert board.get_sum() == 148
+    assert board.get_score() == 1924
 
 
 def test_board_gets_bingo():
