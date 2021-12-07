@@ -1,4 +1,3 @@
-
 def create_line(start, stop):
     line = []
     # Horizontal Lines
@@ -15,3 +14,25 @@ def create_line(start, stop):
         line.append(start)
         line.reverse()
     return line
+
+
+def get_list_limits(coordinates):
+    """
+    Determines the x,y coordinates of the lower right corner of a grid 
+    that will contain all points in the coordinates list.
+
+    Args:
+        coordinates (list): List of coordinates [x,y]
+
+    Returns:
+        list: Starting point and end point of coordinate grid.  [[0,0], [9,9]]
+    """
+    x = 0
+    y = 0
+    for point in coordinates:
+        if point[0] > x:
+            x = point[0]
+        if point[1] > y:
+            y = point[1]
+
+    return [[0, 0], [x, y]]
