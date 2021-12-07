@@ -71,13 +71,13 @@ def mark_grid(grid, line):
     """
     Marks a line on the grid.
 
-    If there is no line at that coordinate the grid displays 1.  If the line 
-    creates an intersection, the intersection point is incremmented.  
+    If there is no line at that coordinate the grid displays 1.  If the line
+    creates an intersection, the intersection point is incremmented.
 
     Args:
         grid (list): Grid to be marked.
-        line (list): All points on the line to be marked.  
-    
+        line (list): All points on the line to be marked.
+
     Returns:
         list:  The marked grid.
     """
@@ -89,5 +89,24 @@ def mark_grid(grid, line):
                         grid[y][x] = 1
                     elif isinstance(column, int):
                         grid[y][x] += 1
-    return grid                    
- 
+    return grid
+
+
+def count_intersections(grid):
+    """
+    Counts of the number of intersections on a grid.
+
+    If the grid value is 2 or greater it is an intersection.
+
+    Args:
+        grid (list): grid to be anaylzed.
+
+    Returns:
+        int: Number of intersections
+    """
+    intersections = 0
+    for row in grid:
+        for point in row:
+            if isinstance(point, int) and point >= 2:
+                intersections += 1
+    return intersections

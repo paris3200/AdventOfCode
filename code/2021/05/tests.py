@@ -49,10 +49,11 @@ def test_mark_grid_single_line_horizontal():
         [".", ".", ".", "."],
         [".", 1, 1, 1],
         [".", ".", ".", "."],
-        [".", ".", ".", "."]
-        ]
+        [".", ".", ".", "."],
+    ]
 
     assert result == expected
+
 
 def test_mark_grid_single_line_vertical():
     grid = create_grid([3, 3])
@@ -68,14 +69,14 @@ def test_mark_grid_single_line_vertical():
 
     assert result == expected
 
+
 def test_mark_grid_multiple_lines():
     grid = create_grid([3, 3])
     line1 = create_line([1, 1], [1, 3])
-    line2= create_line([3, 3], [0, 3])
+    line2 = create_line([3, 3], [0, 3])
 
     grid = mark_grid(grid, line1)
     result = mark_grid(grid, line2)
-
 
     expected = [
         [".", ".", ".", "."],
@@ -84,3 +85,31 @@ def test_mark_grid_multiple_lines():
         [1, 2, 1, 1],
     ]
     assert result == expected
+
+
+def test_count_intersection_one_intersection():
+    grid = create_grid([3, 3])
+    line1 = create_line([1, 1], [1, 3])
+    line2 = create_line([3, 3], [0, 3])
+
+    grid = mark_grid(grid, line1)
+    grid = mark_grid(grid, line2)
+
+    result = count_intersections(grid)
+
+    assert result == 1
+
+
+def test_count_intersection_two():
+    grid = create_grid([3, 3])
+    line1 = create_line([1, 1], [1, 3])
+    line2 = create_line([3, 3], [0, 3])
+    line3 = create_line([3, 1], [0, 1])
+
+    grid = mark_grid(grid, line1)
+    grid = mark_grid(grid, line2)
+    grid = mark_grid(grid, line3)
+
+    result = count_intersections(grid)
+
+    assert result == 2
