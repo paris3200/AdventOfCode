@@ -21,7 +21,7 @@ class Bingo:
         for line in data:
             if line == "\n":
                 current_board += 1
-                self.boards.append(Bingoboard())
+                self.boards.append(BingoCard())
             else:
                 row = line.rstrip().split()
                 for x, num in enumerate(row):
@@ -46,7 +46,7 @@ class Bingo:
         self.play()
 
 
-class Bingoboard:
+class BingoCard:
     def __init__(self):
         self.board = []
         self.matched = [
@@ -157,8 +157,6 @@ def part_two(data):
     print("\n Part Two \n")
     print("    Bingo!")
     print(board)
-    print("Numbers Played: " + str(board.checked_numbers))
-    print("Numbers Matched: " + str(board.matched_numbers))
     print("Winning Number: " + str(board.last_number))
     print("Board Sum: " + str(board.get_sum()))
     print("Total Score: " + str(board.get_score()))
@@ -167,4 +165,4 @@ def part_two(data):
 if __name__ == "__main__":
     data = "data/04.data"
     part_one(data)
-    part_two("data/04_test.data")
+    part_two(data)

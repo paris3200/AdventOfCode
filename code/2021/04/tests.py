@@ -1,9 +1,9 @@
 import pytest
 
-from aoc_d4 import Bingoboard
+from aoc_d4 import BingoCard
 from aoc_d4 import Bingo
 
-def test_bingoboard_gets_bingo():
+def test_card_with_bingo_marked_bingo_and_scored():
     card = [
         [14, 21, 17, 24, 4],
         [10, 16, 15, 9, 19],
@@ -11,7 +11,7 @@ def test_bingoboard_gets_bingo():
         [22, 11, 13, 6, 5],
         [2, 0, 12, 3, 7],
     ]
-    board = Bingoboard()
+    board = BingoCard()
     for line in card:
         board.add_row(line)
     numbers = [7, 4, 9, 5, 11, 17, 23, 2, 0, 14, 21, 24]
@@ -32,7 +32,7 @@ def test_bingoboard_gets_bingo():
     assert board.matched == matched
 
 
-def test_bingoboard_sum():
+def test_bingocard_sums():
     card = [
         [14, 21, 17, 24, 4],
         [10, 16, 15, 9, 19],
@@ -40,7 +40,7 @@ def test_bingoboard_sum():
         [22, 11, 13, 6, 5],
         [2, 0, 12, 3, 7],
     ]
-    board = Bingoboard()
+    board = BingoCard()
     for line in card:
         board.add_row(line)
 
@@ -55,7 +55,7 @@ def test_bingoboard_sum():
     assert board.get_sum() == 302
 
 
-def test_column_gets_bingo():
+def test_bingo_in_coumns():
     card = [
         [14, 21, 17, 24, 4],
         [10, 16, 15, 9, 19],
@@ -63,7 +63,7 @@ def test_column_gets_bingo():
         [22, 11, 13, 6, 5],
         [2, 0, 12, 3, 7],
     ]
-    board = Bingoboard()
+    board = BingoCard()
     for line in card:
         board.add_row(line)
     numbers = [4, 19, 20, 5, 7]
@@ -79,7 +79,7 @@ def test_column_gets_bingo():
         [22, 11, 13, 6, 5],
         [2, 0, 12, 3, 7],
     ]
-    board = Bingoboard()
+    board = BingoCard()
     for line in card:
         board.add_row(line)
     numbers = [24, 9, 26, 6, 3]
@@ -95,7 +95,7 @@ def test_column_gets_bingo():
         [22, 11, 13, 6, 5],
         [2, 0, 12, 3, 7],
     ]
-    board = Bingoboard()
+    board = BingoCard()
     for line in card:
         board.add_row(line)
     numbers = [17, 15, 23, 13, 12]
@@ -111,7 +111,7 @@ def test_column_gets_bingo():
         [22, 11, 13, 6, 5],
         [2, 0, 12, 3, 7],
     ]
-    board = Bingoboard()
+    board = BingoCard()
     for line in card:
         board.add_row(line)
     numbers = [21, 16, 8, 11, 0]
@@ -230,7 +230,7 @@ def test_board_gets_bingo():
     ]
     numbers = [7, 4, 9, 5, 11, 17, 23, 2, 0, 14, 21, 24, 10, 16, 13]
 
-    board = Bingoboard()
+    board = BingoCard()
     for line in card:
         board.add_row(line)
     for num in numbers:
@@ -247,7 +247,7 @@ def test_mark_number():
         [20, 11, 10, 24, 4],
         [14, 21, 16, 12, 6],
     ]
-    board = Bingoboard()
+    board = BingoCard()
     for line in card:
         board.add_row(line)
 
@@ -270,7 +270,7 @@ def test_numbers_matched_not_equal_to_numbers_played():
         [20, 11, 10, 24, 4],
         [14, 21, 16, 12, 6],
     ]
-    board = Bingoboard()
+    board = BingoCard()
     for line in card:
         board.add_row(line)
     numbers = [1, 2, 3, 15, 18, 12, 99]
