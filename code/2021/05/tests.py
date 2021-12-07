@@ -24,4 +24,4 @@ def test_create_line_long_line_vertical():
 def test_get_list_limits_returns_maximum_of_each_coordinate():
     input = [[6, 9], [5, 9], [4, 9], [3, 9], [2, 9], [1, 9]]
     result = get_list_limits(input)
-    assert result == [[0, 0], [6, 9]]
+    assert result == [6, 9]

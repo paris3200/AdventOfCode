@@ -35,7 +35,7 @@ def get_list_limits(coordinates):
         coordinates (list): List of coordinates [x,y]
 
     Returns:
-        list: Starting point and end point of coordinate grid.  [[0,0], [9,9]]
+        list: Lower right coordinate [x, y] of grid that can contain all points.
     """
     x = 0
     y = 0
@@ -45,4 +45,4 @@ def get_list_limits(coordinates):
         if point[1] > y:
             y = point[1]
 
-    return [[0, 0], [x, y]]
+    return [x, y]
