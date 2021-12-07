@@ -26,13 +26,13 @@ class Bingo:
                 self.cards[current_card].add_row(row)
 
     def play(self):
-        if len(self.cards) > 0 and len(self.number_pool) > 0:
+        while len(self.cards) > 0 and len(self.number_pool) > 0:
             self.draw_number(self.number_pool[0])
 
     def draw_number(self, number):
         self.number_pool.remove(number)
         self.marked_numbers.append(number)
-        for card in self.cards:
+        for card in self.cards.copy():
             card.mark_number(number)
             if card.bingo:
                 if self.winner is None:
@@ -40,7 +40,6 @@ class Bingo:
                 if len(self.cards) == 1:
                     self.loser = card
                 self.cards.remove(card)
-        self.play()
 
 
 class BingoCard:

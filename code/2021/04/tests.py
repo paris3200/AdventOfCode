@@ -56,7 +56,7 @@ def test_bingocard_sums():
     assert board.get_sum() == 302
 
 
-def test_bingo_in_coumns():
+def test_bingo_in_columns():
     card = [
         [14, 21, 17, 24, 4],
         [10, 16, 15, 9, 19],
