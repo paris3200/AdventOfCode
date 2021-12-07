@@ -10,14 +10,14 @@ def create_line(start, stop):
         list: All points on line including the start and stop.
     """
     line = []
-    # Horizontal Lines
+    # Vertical Lines
     if start[0] == stop[0]:
         delta = stop[1] - start[1]
         for y in range(start[1], delta + 1):
             line.append([start[0], y])
         line.append(stop)
 
-    # Vertical Lines
+    # Horizontal Lines
     elif start[1] == stop[1]:
         for y in range(stop[0], start[0]):
             line.append([y, start[1]])
@@ -65,3 +65,29 @@ def create_grid(end_point):
             row.append(".")
         grid.append(row)
     return grid
+
+
+def mark_grid(grid, line):
+    """
+    Marks a line on the grid.
+
+    If there is no line at that coordinate the grid displays 1.  If the line 
+    creates an intersection, the intersection point is incremmented.  
+
+    Args:
+        grid (list): Grid to be marked.
+        line (list): All points on the line to be marked.  
+    
+    Returns:
+        list:  The marked grid.
+    """
+    for y, row in enumerate(grid):
+        for x, column in enumerate(row):
+            for point in line:
+                if point[0] == x and point[1] == y:
+                    if column == ".":
+                        grid[y][x] = 1
+                    elif isinstance(column, int):
+                        grid[y][x] += 1
+    return grid                    
+ 
