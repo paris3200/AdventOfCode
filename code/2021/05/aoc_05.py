@@ -1,4 +1,14 @@
 def create_line(start, stop):
+    """
+    Creates all points on a line given the starting and stopping coordinates.
+
+    Args:
+        start (list): Starting point [x, y] of line.
+        stop (list): Stopping point [x, y] of line.
+
+    Returns:
+        list: All points on line including the start and stop.
+    """
     line = []
     # Horizontal Lines
     if start[0] == stop[0]:
