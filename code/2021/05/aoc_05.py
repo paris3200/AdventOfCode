@@ -14,7 +14,7 @@ def create_line(start, stop):
     if start[0] == stop[0]:
         for y in range(min(start[1], stop[1]), max(start[1], stop[1]) + 1):
             line.append([start[0], y])
-    
+
     # Horizontal Lines
     elif start[1] == stop[1]:
         for y in range(min(start[0], stop[0]), max(start[0], stop[0]) + 1):
@@ -106,6 +106,7 @@ def count_intersections(grid):
                 intersections += 1
     return intersections
 
+
 def print_grid(grid):
     map = ""
     for row in grid:
@@ -114,9 +115,10 @@ def print_grid(grid):
         map += "\n"
     return map
 
+
 def read_file(filename):
     """
-    Reads the file and converts into a list of coordinates.  
+    Reads the file and converts into a list of coordinates.
 
     Args:
         filename (str):  file path
@@ -125,8 +127,8 @@ def read_file(filename):
         list: list of lines starting and ending point.
     """
     with open(filename, "r") as f:
-            data = f.readlines()
-    
+        data = f.readlines()
+
     lines = []
     for line in data:
         start = []
@@ -144,7 +146,7 @@ def read_file(filename):
 
 
 def part_one(data):
-    
+
     end_points = read_file(data)
 
     line_segments = []
@@ -162,11 +164,10 @@ def part_one(data):
 
     return count_intersections(grid)
 
+
 if __name__ == "__main__":
     data = "data/05.data"
     result = part_one(data)
 
     print("  Part One  \n")
     print("Intersections: " + str(result) + "\n")
-
-
