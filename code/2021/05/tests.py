@@ -71,7 +71,6 @@ def test_mark_grid_single_line_horizontal():
 def test_mark_grid_single_line_vertical():
     grid = create_grid([3, 3])
     line = create_line([1, 0], [1, 3])
-    breakpoint()
 
     result = mark_grid(grid, line)
     expected = [
