@@ -139,3 +139,11 @@ def test_part_one_with_test_data():
     result = part_one(data)
 
     assert result == 5
+
+# Warning:  Very Slow test ~ 43m
+@pytest.mark.skip
+def test_part_one_with_problem_set():
+    data = "data/05.data"
+    result = part_one(data)
+
+    assert result == 6564
