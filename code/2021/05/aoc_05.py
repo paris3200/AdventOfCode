@@ -119,3 +119,30 @@ def print_grid(grid):
         map += "\n"
     return map
 
+def read_file(filename):
+    """
+    Reads the file and converts into a list of coordinates.  
+
+    Args:
+        filename (str):  file path
+
+    Returns:
+        list: list of lines starting and ending point.
+    """
+    with open(filename, "r") as f:
+            data = f.readlines()
+    
+    lines = []
+    for line in data:
+        start = []
+        end = []
+        input = line.rstrip().split(" -> ")
+        for x, point in enumerate(input):
+            coor = point.split(",")
+            if x == 0:
+                start = [int(coor[0]), int(coor[1])]
+            elif x == 1:
+                end = [int(coor[0]), int(coor[1])]
+        lines.append([start, end])
+
+    return lines
