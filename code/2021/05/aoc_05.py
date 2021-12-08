@@ -56,13 +56,13 @@ def create_grid(end_point):
         end_point (list): Coordinate of lower right point in the grid.
 
     Returns:
-        list: Grid with `.` at each point on the grid.
+        list: Grid with 0 at each point on the grid.
     """
     grid = []
     for x in range(0, end_point[1] + 1):
         row = []
         for x in range(0, end_point[1] + 1):
-            row.append(".")
+            row.append(0)
         grid.append(row)
     return grid
 
@@ -85,10 +85,7 @@ def mark_grid(grid, line):
         for x, column in enumerate(row):
             for point in line:
                 if point[0] == x and point[1] == y:
-                    if column == ".":
-                        grid[y][x] = 1
-                    elif isinstance(column, int):
-                        grid[y][x] += 1
+                    grid[y][x] += 1
     return grid
 
 
@@ -107,7 +104,7 @@ def count_intersections(grid):
     intersections = 0
     for row in grid:
         for point in row:
-            if isinstance(point, int) and point >= 2:
+            if point >= 2:
                 intersections += 1
     return intersections
 
