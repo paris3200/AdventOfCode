@@ -1,10 +1,10 @@
 def create_line(start, stop):
     """
-    Creates all points on a line given the starting and stopping coordinates.
+    Creates all points on a line given the end points of the line.
 
     Args:
-        start (list): Starting point [x, y] of line.
-        stop (list): Stopping point [x, y] of line.
+        start (list): One end point [x, y] of line.
+        stop (list): Second end point [x, y] of line.
 
     Returns:
         list: All points on line including the start and stop.
@@ -12,17 +12,15 @@ def create_line(start, stop):
     line = []
     # Vertical Lines
     if start[0] == stop[0]:
-        delta = stop[1] - start[1]
-        for y in range(start[1], delta + 1):
+        for y in range(min(start[1], stop[1]), max(start[1], stop[1]) + 1):
             line.append([start[0], y])
-        line.append(stop)
-
+    
     # Horizontal Lines
     elif start[1] == stop[1]:
-        for y in range(stop[0], start[0]):
+        for y in range(min(start[0], stop[0]), max(start[0], stop[0]) + 1):
             line.append([y, start[1]])
-        line.append(start)
-        line.reverse()
+    else:
+        return
     return line
 
 
