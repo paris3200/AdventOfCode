@@ -10,7 +10,7 @@ def create_line(start, stop):
         stop (list): Second end point [x, y] of line.
 
     Returns:
-        list: All points on line including the start and stop.
+        numpy array: All points on line including the start and stop.
     """
     line = []
     # Vertical Lines
@@ -32,10 +32,10 @@ def create_grid(end_point):
     Creates a grid starting at [0,0] and going to the endpoint.
 
     Args:
-        end_point (list): Coordinate of lower right point in the grid.
+        end_point (numpy array): Coordinate of lower right point in the grid.
 
     Returns:
-        list: Grid with 0 at each point on the grid.
+        numpy array: Grid with 0 at each point on the grid.
     """
     return np.full([end_point[0] + 1, end_point[1] + 1], 0, dtype=int)
 
@@ -48,11 +48,11 @@ def mark_grid(grid, line):
     creates an intersection, the intersection point is incremmented.
 
     Args:
-        grid (list): Grid to be marked.
-        line (list): All points on the line to be marked.
+        grid (numpy array): Grid to be marked.
+        line (numpy array): All points on the line to be marked.
 
     Returns:
-        list:  The marked grid.
+        numpy array:  The marked grid.
     """
     for point in line:
         grid[point[1]][point[0]] += 1
@@ -66,7 +66,7 @@ def count_intersections(grid):
     If the grid value is 2 or greater it is an intersection.
 
     Args:
-        grid (list): grid to be anaylzed.
+        grid (numpy array): grid to be anaylzed.
 
     Returns:
         int: Number of intersections
@@ -93,7 +93,7 @@ def read_file(filename):
         filename (str):  file path
 
     Returns:
-        list: list of lines starting and ending point.
+        numpy array: list of lines starting and ending point.
     """
     with open(filename, "r") as f:
         data = f.readlines()
