@@ -7,9 +7,6 @@ def test_create_line_short_line_vertical():
     result = create_line([1, 1], [1, 3])
     assert result == [[1, 1], [1, 2], [1, 3]]
 
-def test_create_line_short_line_vertical():
-    result = create_line([2, 2], [2, 1])
-    assert result == [[2, 1], [2, 2]]
 
 def test_create_line_long_line_vertical():
     result = create_line([1, 1], [1, 6])
@@ -31,11 +28,6 @@ def test_create_line_long_line_horizontal():
 def test_create_line_order_irrevelant():
     result = create_line([9, 4], [3, 4])
     assert result == [[3, 4], [4, 4], [5, 4], [6, 4], [7, 4], [8, 4], [9, 4]]
-
-def test_get_list_limits_returns_maximum_of_each_coordinate():
-    input = [[6, 9], [5, 9], [4, 9], [3, 9], [2, 9], [1, 9]]
-    result = get_list_limits(input)
-    assert result == [6, 9]
 
 def test_get_list_limits_returns_maximum_of_each_coordinate():
     input = [[6, 9], [5, 9], [4, 9], [3, 9], [2, 9], [1, 9]]
