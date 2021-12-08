@@ -146,3 +146,32 @@ def read_file(filename):
         lines.append([start, end])
 
     return lines
+
+
+def part_one(data):
+    
+    end_points = read_file(data)
+
+    line_segments = []
+    for item in end_points:
+        line = create_line(item[0], item[1])
+        if line is not None:
+            line_segments.append(line)
+
+    grid_size = [1000, 1000]
+
+    grid = create_grid(grid_size)
+
+    for line in line_segments:
+        grid = mark_grid(grid, line)
+
+    return count_intersections(grid)
+
+if __name__ == "__main__":
+    data = "data/05.data"
+    result = part_one(data)
+
+    print("  Part One  \n")
+    print("Intersections: " + str(result) + "\n")
+
+
