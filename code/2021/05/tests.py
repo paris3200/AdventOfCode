@@ -40,12 +40,6 @@ def test_create_line_order_irrevelant():
     assert np.array_equal(result, expected)
 
 
-def test_get_list_limits_returns_maximum_of_each_coordinate():
-    input = [[6, 9], [5, 9], [4, 9], [3, 9], [2, 9], [1, 9]]
-    result = get_list_limits(input)
-    assert result == [6, 9]
-
-
 def test_create_grid():
     result = create_grid([3, 3])
     expected = np.array(

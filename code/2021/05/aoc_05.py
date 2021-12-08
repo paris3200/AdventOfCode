@@ -27,26 +27,6 @@ def create_line(start, stop):
     return np.array(line)
 
 
-def get_list_limits(coordinates):
-    """
-    Determines the x,y coordinates of the lower right corner of a grid
-    that will contain all points in the coordinates list.
-
-    Args:
-        coordinates (list): List of coordinates [x,y]
-
-    Returns:
-        list: Lower right coordinate [x, y] of grid that can contain all points.
-    """
-    x = []
-    y = []
-    for point in coordinates:
-        x.append(point[0])
-        y.append(point[1])
-
-    return [max(x), max(y)]
-
-
 def create_grid(end_point):
     """
     Creates a grid starting at [0,0] and going to the endpoint.
@@ -134,7 +114,7 @@ def read_file(filename):
     return lines
 
 
-def part_one(data):
+def part_one(data, grid_size=[1000, 1000]):
 
     end_points = read_file(data)
 
@@ -143,8 +123,6 @@ def part_one(data):
         line = create_line(item[0], item[1])
         if line is not None:
             line_segments.append(line)
-
-    grid_size = [1000, 1000]
 
     grid = create_grid(grid_size)
 
