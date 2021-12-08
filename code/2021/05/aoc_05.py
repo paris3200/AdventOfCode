@@ -110,3 +110,12 @@ def count_intersections(grid):
             if isinstance(point, int) and point >= 2:
                 intersections += 1
     return intersections
+
+def print_grid(grid):
+    map = ""
+    for row in grid:
+        for col in row:
+            map += " " + str(col) + " "
+        map += "\n"
+    return map
+
