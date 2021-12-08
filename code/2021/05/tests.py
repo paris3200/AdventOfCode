@@ -1,36 +1,43 @@
 import pytest
+import numpy as np
 
 from aoc_05 import *
 
 
 def test_create_line_short_line_vertical():
     result = create_line([1, 1], [1, 3])
-    assert result == [[1, 1], [1, 2], [1, 3]]
+    expected = np.array([[1, 1], [1, 2], [1, 3]])
+    assert np.array_equal(result, expected)
 
 
 def test_create_line_long_line_vertical():
     result = create_line([1, 1], [1, 6])
-    assert result == [[1, 1], [1, 2], [1, 3], [1, 4], [1, 5], [1, 6]]
+    expected = np.array([[1, 1], [1, 2], [1, 3], [1, 4], [1, 5], [1, 6]])
+    assert np.array_equal(result, expected)
 
 
 def test_create_line_short_line_horizontal():
     result = create_line([9, 7], [7, 7])
-    assert result == [[7, 7], [8, 7], [9, 7]]
+    expected = np.array([[7, 7], [8, 7], [9, 7]])
+    assert np.array_equal(result, expected)
 
 
 def test_create_line_short_line_horizontal_line_v2():
     result = create_line([0, 9], [5, 9])
-    assert result == [[0, 9], [1, 9], [2, 9], [3, 9], [4, 9], [5, 9]]
+    expected = np.array([[0, 9], [1, 9], [2, 9], [3, 9], [4, 9], [5, 9]])
+    assert np.array_equal(result, expected)
 
 
 def test_create_line_long_line_horizontal():
     result = create_line([6, 9], [1, 9])
-    assert result == [[1, 9], [2, 9], [3, 9], [4, 9], [5, 9], [6, 9]]
+    expected = np.array([[1, 9], [2, 9], [3, 9], [4, 9], [5, 9], [6, 9]])
+    assert np.array_equal(result, expected)
 
 
 def test_create_line_order_irrevelant():
     result = create_line([9, 4], [3, 4])
-    assert result == [[3, 4], [4, 4], [5, 4], [6, 4], [7, 4], [8, 4], [9, 4]]
+    expected = np.array([[3, 4], [4, 4], [5, 4], [6, 4], [7, 4], [8, 4], [9, 4]])
+    assert np.array_equal(result, expected)
 
 
 def test_get_list_limits_returns_maximum_of_each_coordinate():
@@ -41,13 +48,15 @@ def test_get_list_limits_returns_maximum_of_each_coordinate():
 
 def test_create_grid():
     result = create_grid([3, 3])
-    grid = [
-        [0, 0, 0, 0],
-        [0, 0, 0, 0],
-        [0, 0, 0, 0],
-        [0, 0, 0, 0],
-    ]
-    assert result == grid
+    expected = np.array(
+        [
+            [0, 0, 0, 0],
+            [0, 0, 0, 0],
+            [0, 0, 0, 0],
+            [0, 0, 0, 0],
+        ]
+    )
+    assert np.array_equal(result, expected)
 
 
 def test_mark_grid_single_line_horizontal():
@@ -55,14 +64,16 @@ def test_mark_grid_single_line_horizontal():
     line = create_line([3, 1], [1, 1])
     result = mark_grid(grid, line)
 
-    expected = [
-        [0, 0, 0, 0],
-        [0, 1, 1, 1],
-        [0, 0, 0, 0],
-        [0, 0, 0, 0],
-    ]
+    expected = np.array(
+        [
+            [0, 0, 0, 0],
+            [0, 1, 1, 1],
+            [0, 0, 0, 0],
+            [0, 0, 0, 0],
+        ]
+    )
 
-    assert result == expected
+    assert np.array_equal(result, expected)
 
 
 def test_mark_grid_single_line_vertical():
@@ -70,14 +81,16 @@ def test_mark_grid_single_line_vertical():
     line = create_line([1, 0], [1, 3])
 
     result = mark_grid(grid, line)
-    expected = [
-        [0, 1, 0, 0],
-        [0, 1, 0, 0],
-        [0, 1, 0, 0],
-        [0, 1, 0, 0],
-    ]
+    expected = np.array(
+        [
+            [0, 1, 0, 0],
+            [0, 1, 0, 0],
+            [0, 1, 0, 0],
+            [0, 1, 0, 0],
+        ]
+    )
 
-    assert result == expected
+    assert np.array_equal(result, expected)
 
 
 def test_mark_grid_multiple_lines():
@@ -88,8 +101,8 @@ def test_mark_grid_multiple_lines():
     grid = mark_grid(grid, line1)
     result = mark_grid(grid, line2)
 
-    expected = [[0, 0, 0, 0], [0, 1, 0, 0], [0, 1, 0, 0], [1, 2, 1, 1]]
-    assert result == expected
+    expected = np.array([[0, 0, 0, 0], [0, 1, 0, 0], [0, 1, 0, 0], [1, 2, 1, 1]])
+    assert np.array_equal(result, expected)
 
 
 def test_count_intersection_one_intersection():
@@ -130,13 +143,11 @@ def test_read_file():
 
 def test_part_one_with_test_data():
     data = "data/05_test.data"
-    result = part_one(data)
+    result = part_one(data, grid_size=[9, 9])
 
     assert result == 5
 
 
-# Warning:  Very Slow test ~ 43m
-@pytest.mark.skip
 def test_part_one_with_problem_set():
     data = "data/05.data"
     result = part_one(data)

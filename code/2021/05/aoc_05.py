@@ -1,3 +1,6 @@
+import numpy as np
+
+
 def create_line(start, stop):
     """
     Creates all points on a line given the end points of the line.
@@ -21,7 +24,7 @@ def create_line(start, stop):
             line.append([y, start[1]])
     else:
         return
-    return line
+    return np.array(line)
 
 
 def get_list_limits(coordinates):
@@ -35,15 +38,13 @@ def get_list_limits(coordinates):
     Returns:
         list: Lower right coordinate [x, y] of grid that can contain all points.
     """
-    x = 0
-    y = 0
+    x = []
+    y = []
     for point in coordinates:
-        if point[0] > x:
-            x = point[0]
-        if point[1] > y:
-            y = point[1]
+        x.append(point[0])
+        y.append(point[1])
 
-    return [x, y]
+    return [max(x), max(y)]
 
 
 def create_grid(end_point):
@@ -56,13 +57,7 @@ def create_grid(end_point):
     Returns:
         list: Grid with 0 at each point on the grid.
     """
-    grid = []
-    for x in range(0, end_point[1] + 1):
-        row = []
-        for x in range(0, end_point[1] + 1):
-            row.append(0)
-        grid.append(row)
-    return grid
+    return np.full([end_point[0] + 1, end_point[1] + 1], 0, dtype=int)
 
 
 def mark_grid(grid, line):
@@ -79,11 +74,8 @@ def mark_grid(grid, line):
     Returns:
         list:  The marked grid.
     """
-    for y, row in enumerate(grid):
-        for x, column in enumerate(row):
-            for point in line:
-                if point[0] == x and point[1] == y:
-                    grid[y][x] += 1
+    for point in line:
+        grid[point[1]][point[0]] += 1
     return grid
 
 
@@ -99,12 +91,9 @@ def count_intersections(grid):
     Returns:
         int: Number of intersections
     """
-    intersections = 0
-    for row in grid:
-        for point in row:
-            if point >= 2:
-                intersections += 1
-    return intersections
+    i_list = np.nonzero(grid >= 2)
+    coordinates = list(zip(i_list[0], i_list[1]))
+    return len(coordinates)
 
 
 def print_grid(grid):
