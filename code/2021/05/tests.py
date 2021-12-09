@@ -40,6 +40,36 @@ def test_create_line_order_irrevelant():
     assert np.array_equal(result, expected)
 
 
+def test_create_line_diagonal_line_short():
+    result = create_line([1, 1], [3, 3], True)
+    expected = np.array([[1, 1], [2, 2], [3, 3]])
+
+    assert np.array_equal(result, expected)
+
+
+def test_create_line_diagonal_line_reversed():
+    result = create_line([3, 3], [1, 1], True)
+    expected = np.array([[1, 1], [2, 2], [3, 3]])
+
+    assert np.array_equal(result, expected)
+
+
+def test_create_line_diagonal_line_long():
+    result = create_line([0, 0], [8, 8], True)
+    expected = np.array([[0, 0], [1, 1], [2, 2], [3, 3], [4, 4], [5, 5], [6, 6], [7, 7], [8, 8]])
+
+    assert np.array_equal(result, expected)
+
+def test_create_line_diagonal_line_long():
+    result = create_line([8, 0], [0, 8], True)
+    expected = np.array([[0, 8], [1, 7], [2, 6], [3, 5], [4, 4], [5, 3], [6, 2], [7, 1], [8, 0]])
+
+    assert np.array_equal(result, expected)
+def test_create_line_diagonal_line_long_reversed_inputs():
+    result = create_line([8, 8], [0, 0], True)
+    expected = np.array([[0, 0], [1, 1], [2, 2], [3, 3], [4, 4], [5, 5], [6, 6], [7, 7], [8, 8]])
+
+    assert np.array_equal(result, expected)
 def test_create_grid():
     result = create_grid([3, 3])
     expected = np.array(
@@ -86,6 +116,21 @@ def test_mark_grid_single_line_vertical():
 
     assert np.array_equal(result, expected)
 
+def test_mark_grid_single_line_diagonal():
+    grid = create_grid([3, 3])
+    line = create_line([3, 3], [1, 1], True)
+
+    result = mark_grid(grid, line)
+    expected = np.array(
+        [
+            [0, 0, 0, 0],
+            [0, 1, 0, 0],
+            [0, 0, 1, 0],
+            [0, 0, 0, 1],
+        ]
+    )
+
+    assert np.array_equal(result, expected)
 
 def test_mark_grid_multiple_lines():
     grid = create_grid([3, 3])
@@ -141,6 +186,11 @@ def test_part_one_with_test_data():
 
     assert result == 5
 
+def test_part_two_with_test_data():
+    data = "data/05_test.data"
+    result = part_one(data, grid_size=[9, 9], diagonal=True)
+
+    assert result == 12
 
 def test_part_one_with_problem_set():
     data = "data/05.data"

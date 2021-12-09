@@ -1,13 +1,14 @@
 import numpy as np
 
 
-def create_line(start, stop):
+def create_line(start, stop, diagonal=False):
     """
     Creates all points on a line given the end points of the line.
 
     Args:
         start (list): One end point [x, y] of line.
         stop (list): Second end point [x, y] of line.
+        diagonal (bool): False if diagonal numbers are to be ignored.
 
     Returns:
         numpy array: All points on line including the start and stop.
@@ -22,8 +23,32 @@ def create_line(start, stop):
     elif start[1] == stop[1]:
         for y in range(min(start[0], stop[0]), max(start[0], stop[0]) + 1):
             line.append([y, start[1]])
+
+    # Diagonal Lines
+    elif diagonal == True:
+        xcoord = []
+        ycoord = []
+        if start[0] > stop[0]:
+            xdelta = -1
+        else:
+            xdelta = 1
+
+        if start[1] > stop[1]:
+            ydelta = -1
+        else:
+            ydelta = 1
+
+        for x in range(start[0]-xdelta, stop[0], xdelta):
+            xcoord.append(x + xdelta)
+
+        for y in range(start[1]-ydelta, stop[1], ydelta):
+            ycoord.append(y + ydelta)
+
+        line = list(zip(ycoord, xcoord))
+        line.sort()
     else:
-        return
+        return None
+
     return np.array(line)
 
 
@@ -114,13 +139,13 @@ def read_file(filename):
     return lines
 
 
-def part_one(data, grid_size=[1000, 1000]):
+def part_one(data, grid_size=[1000, 1000], diagonal=False):
 
     end_points = read_file(data)
 
     line_segments = []
     for item in end_points:
-        line = create_line(item[0], item[1])
+        line = create_line(item[0], item[1], diagonal)
         if line is not None:
             line_segments.append(line)
 
@@ -133,8 +158,13 @@ def part_one(data, grid_size=[1000, 1000]):
 
 
 if __name__ == "__main__":
-    data = "data/05.data"
-    result = part_one(data)
+    #data = "data/05.data"
+    #result = part_one(data)
 
-    print("  Part One  \n")
+    #print("  Part One  \n")
+    #print("Intersections: " + str(result) + "\n")
+
+    data = "data/05.data"
+    result = part_one(data, diagonal=True)
+    print("  Part Two  \n")
     print("Intersections: " + str(result) + "\n")
