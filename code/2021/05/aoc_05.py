@@ -37,7 +37,6 @@ def create_line(start, stop, diagonal=False) -> NDArray[np.int32]:
             begin = stop
             end = start
 
-
         # Determine slope
         if begin[0] <= end[0] and begin[1] <= end[1]:
             m = 1
