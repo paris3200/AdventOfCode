@@ -1,7 +1,9 @@
 import numpy as np
+from nptyping import NDArray
+from typing import Any
 
 
-def create_line(start, stop, diagonal=False):
+def create_line(start, stop, diagonal=False) -> NDArray[np.int32]:
     """
     Creates all points on a line given the end points of the line.
 
@@ -51,7 +53,7 @@ def create_line(start, stop, diagonal=False):
     return np.array(line)
 
 
-def create_grid(end_point):
+def create_grid(end_point) -> NDArray[np.int32]:
     """
     Creates a grid starting at [0,0] and going to the endpoint.
 
@@ -100,7 +102,7 @@ def count_intersections(grid):
     return len(coordinates)
 
 
-def print_grid(grid):
+def print_grid(grid) -> str:
     map = ""
     for row in grid:
         for col in row:
@@ -109,7 +111,7 @@ def print_grid(grid):
     return map
 
 
-def read_file(filename):
+def read_file(filename) -> list:
     """
     Reads the file and converts into a list of coordinates.
 
@@ -117,7 +119,7 @@ def read_file(filename):
         filename (str):  file path
 
     Returns:
-        numpy array: list of lines starting and ending point.
+        list: list of lines starting and ending point.
     """
     with open(filename, "r") as f:
         data = f.readlines()
@@ -145,7 +147,7 @@ def part_one(data, grid_size=[1000, 1000], diagonal=False):
     line_segments = []
     for item in end_points:
         line = create_line(item[0], item[1], diagonal)
-        if line is not None:
+        if len(line) > 0:
             line_segments.append(line)
 
     grid = create_grid(grid_size)
@@ -157,13 +159,12 @@ def part_one(data, grid_size=[1000, 1000], diagonal=False):
 
 
 if __name__ == "__main__":
-    #data = "data/05.data"
-    #result = part_one(data)
-
-    #print("  Part One  \n")
-    #print("Intersections: " + str(result) + "\n")
-
     data = "data/05.data"
+    result = part_one(data)
+
+    print("  Part One  \n")
+    print("Intersections: " + str(result) + "\n")
+
     result = part_one(data, diagonal=True)
     print("  Part Two  \n")
     print("Intersections: " + str(result) + "\n")

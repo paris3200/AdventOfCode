@@ -208,14 +208,23 @@ def test_part_one_with_test_data():
 
     assert result == 5
 
+
 def test_part_two_with_test_data():
     data = "data/05_test.data"
     result = part_one(data, grid_size=[9, 9], diagonal=True)
 
     assert result == 12
 
+
 def test_part_one_with_problem_set():
     data = "data/05.data"
     result = part_one(data)
 
     assert result == 6564
+
+
+def test_part_two_with_problem_set():
+    data = "data/05.data"
+    result = part_one(data, diagonal=True)
+
+    assert result != 19139
