@@ -26,28 +26,27 @@ def create_line(start, stop, diagonal=False):
 
     # Diagonal Lines
     elif diagonal == True:
-        xcoord = []
-        ycoord = []
-        if start[0] > stop[0]:
-            xdelta = -1
+
+        # Find the leftmost point
+        if start[0] < stop[0]:
+            begin = start
+            end = stop
         else:
-            xdelta = 1
+            begin = stop
+            end = start
 
-        if start[1] > stop[1]:
-            ydelta = -1
+
+        # Determine slope
+        if begin[0] <= end[0] and begin[1] <= end[1]:
+            m = 1
         else:
-            ydelta = 1
+            m = -1
+        b = -1 * (m * begin[0] - begin[1])
 
-        for x in range(start[0]-xdelta, stop[0], xdelta):
-            xcoord.append(x + xdelta)
-
-        for y in range(start[1]-ydelta, stop[1], ydelta):
-            ycoord.append(y + ydelta)
-
-        line = list(zip(ycoord, xcoord))
-        line.sort()
-    else:
-        return None
+        line = []
+        for x in range(min(start[0], stop[0]), max(start[0], stop[0]) + 1):
+            y = m * x + b
+            line.append([x, y])
 
     return np.array(line)
 

@@ -47,29 +47,49 @@ def test_create_line_diagonal_line_short():
     assert np.array_equal(result, expected)
 
 
-def test_create_line_diagonal_line_reversed():
+def test_create_line_diagonal_line_short_reversed():
     result = create_line([3, 3], [1, 1], True)
     expected = np.array([[1, 1], [2, 2], [3, 3]])
 
     assert np.array_equal(result, expected)
 
 
-def test_create_line_diagonal_line_long():
+def test_create_line_diagonal_line_long_negative_slope():
     result = create_line([0, 0], [8, 8], True)
-    expected = np.array([[0, 0], [1, 1], [2, 2], [3, 3], [4, 4], [5, 5], [6, 6], [7, 7], [8, 8]])
+    expected = np.array(
+        [[0, 0], [1, 1], [2, 2], [3, 3], [4, 4], [5, 5], [6, 6], [7, 7], [8, 8]]
+    )
 
     assert np.array_equal(result, expected)
 
-def test_create_line_diagonal_line_long():
-    result = create_line([8, 0], [0, 8], True)
-    expected = np.array([[0, 8], [1, 7], [2, 6], [3, 5], [4, 4], [5, 3], [6, 2], [7, 1], [8, 0]])
 
-    assert np.array_equal(result, expected)
-def test_create_line_diagonal_line_long_reversed_inputs():
+def test_create_line_diagonal_line_long_negative_slope_reversed_inputs():
     result = create_line([8, 8], [0, 0], True)
-    expected = np.array([[0, 0], [1, 1], [2, 2], [3, 3], [4, 4], [5, 5], [6, 6], [7, 7], [8, 8]])
+    expected = np.array(
+        [[0, 0], [1, 1], [2, 2], [3, 3], [4, 4], [5, 5], [6, 6], [7, 7], [8, 8]]
+    )
 
     assert np.array_equal(result, expected)
+
+
+def test_create_line_diagonal_line_long_positive_slope():
+    result = create_line([8, 0], [0, 8], True)
+    expected = np.array(
+        [[0, 8], [1, 7], [2, 6], [3, 5], [4, 4], [5, 3], [6, 2], [7, 1], [8, 0]]
+    )
+
+    assert np.array_equal(result, expected)
+
+
+def test_create_line_diagonal_line_long_positive_slope_reversed_inputs():
+    result = create_line([0, 8], [8, 0], True)
+    expected = np.array(
+        [[0, 8], [1, 7], [2, 6], [3, 5], [4, 4], [5, 3], [6, 2], [7, 1], [8, 0]]
+    )
+
+    assert np.array_equal(result, expected)
+
+
 def test_create_grid():
     result = create_grid([3, 3])
     expected = np.array(
@@ -116,6 +136,7 @@ def test_mark_grid_single_line_vertical():
 
     assert np.array_equal(result, expected)
 
+
 def test_mark_grid_single_line_diagonal():
     grid = create_grid([3, 3])
     line = create_line([3, 3], [1, 1], True)
@@ -131,6 +152,7 @@ def test_mark_grid_single_line_diagonal():
     )
 
     assert np.array_equal(result, expected)
+
 
 def test_mark_grid_multiple_lines():
     grid = create_grid([3, 3])
