@@ -6,9 +6,7 @@ class Model:
         """Setup the simulation.
 
         Args:
-            population: The starting population as a list.  The index
-                represents the timer value and the value represents the number of fish
-                with that timer value.
+            population: The starting population as a fish timer values.
             days: The number of days in the simulation.
         """
         self.days = days
