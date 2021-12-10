@@ -1,55 +1,78 @@
+from typing import List
+
+
 class Model:
-    def __init__(self, population=None, days=1, verbose=False):
-        self.day = days
-        self.verbose = verbose
+    def __init__(self, population: List[int], days: int = 1) -> None:
+        """Setup the simulation.
 
-        self.fish = []
-        for x in range(0, 9):
-            self.fish.append(0)
+        Args:
+            population: The starting population as a list.  The index
+                represents the timer value and the value represents the number of fish
+                with that timer value.
+            days: The number of days in the simulation.
+        """
+        self.days = days
+        self.fish = self.sum_population(population)
 
-        if population:
-            for x, age in enumerate(population):
-                self.fish[x] += age
+    def count_fish(self) -> int:
+        """Counts the total number of fish in the model.
 
-    def count_fish(self):
+        Returns:
+            int: total number of fish
+        """
         return sum(self.fish)
 
-    def run(self):
-        while self.day > 0:
+    def run(self) -> int:
+        """Runs the simulation for prescribed number of days.
+
+        Returns:
+            The total number of fish alive at the end of the simulation.
+        """
+        while self.days > 0:
             b = self.fish.pop(0)
             self.fish.append(b)
             self.fish[6] += b
-            self.day -= 1
+            self.days -= 1
         return self.count_fish()
 
+    @staticmethod
+    def sum_population(input: List[int]) -> List[int]:
+        """
+        Sums the number of fish in the input list and returns a list
+        where the index corresponds to the fish timer and the value
+        represents the number of fish with that timer.
 
-def convert_input(input):
-    bucket = []
-    for x in range(0, 9):
-        bucket.append(0)
+        Args:
+            input (list):  A list of fish timer values.
 
-    for x in range(0, 9):
-        bucket[x] = input.count(x)
+        Returns:
+            list: Index mapped to fish timer value, value mapped to
+                number of fish with that timer.
+        """
+        bucket = []
+        for x in range(0, 9):
+            bucket.append(0)
 
-    return bucket
+        for x in range(0, 9):
+            bucket[x] = input.count(x)
+
+        return bucket
 
 
-def part_one(days=80):
+def part_one(days: int = 80):
     filename = "data/06.data"
 
     with open(filename, "r") as f:
         data = f.readlines()
 
-    fish = []
     for line in data:
         input = line.rstrip().split(",")
 
+    fish = []
     for i in input:
         fish.append(int(i))
 
-    fish = convert_input(fish)
-
-    model = Model(fish, days=days, verbose=False)
+    model = Model(fish, days=days)
     count = model.run()
 
     print(f"Sun fish after {days} days: {count} \n")
