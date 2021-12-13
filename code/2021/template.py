@@ -13,6 +13,7 @@ def test_part_one(data):
     result = part_one(data)
     assert result is True
 
+
 def test_part_two(data):
     result = part_two(data)
     assert result is True
