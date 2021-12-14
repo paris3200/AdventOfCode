@@ -67,6 +67,21 @@ def test_observations_len_5():
     assert result == expected
 
 
+def test_solve_display():
+    observations = "acedgfb cdfbe gcdfa fbcad dab cefabd cdfgeb eafb cagedb ab".split()
+    readings = "cdfeb fcadb cdfeb cdbaf".split
+
+    result = solve_display([observations, readings])
+    expected = {
+        "a": "d",
+        "b": "a",
+        "c": "b",
+        "d": "c",
+        "e": "g",
+        "f": "e",
+        "g": "f",
+    }
+    assert result == expected
 
 
 def test_display_convert_to_int():

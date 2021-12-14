@@ -128,6 +128,79 @@ def observations_len_5(input: List[str]) -> List[str]:
     return possibles
 
 
+def solve_display(input: list):
+    top = {"a", "b", "c", "d", "f", "g"}
+    topl = {"a", "b", "c", "d", "f", "g"}
+    topr = {"a", "b", "c", "d", "f", "g"}
+    middle = {"a", "b", "c", "d", "f", "g"}
+    bottoml = {"a", "b", "c", "d", "f", "g"}
+    bottomr = {"a", "b", "c", "d", "f", "g"}
+    bottom = {"a", "b", "c", "d", "f", "g"}
+
+    # Solve top if 1 and 7 present
+    seven = get_seven(input[0])
+    one = get_one(input[0])
+    if seven and one:
+        seven = set(list(seven))
+        one = set(list(one))
+
+        # Top Solved
+        top = seven.difference(one)
+
+        # Right side narrowed down
+        topr = set(list(one))
+        bottomr = set(list(one))
+
+        # Narrow down topl and middle
+        four = set(list(get_four(input[0])))
+        middle = four.difference(one)
+        topl = four.difference(one)
+
+        bottom = bottom.difference(top, topr, bottomr, middle, topl)
+        bottoml = bottoml.difference(top, topr, bottomr, middle, topl)
+
+        # Solve 5 and bottoml, bottomr, bottom
+        options = []
+        for option in observations_len_5(input[0]):
+            options.append(set(list(option)))
+
+        for option in options:
+            if (
+                len(topr.intersection(option)) == 1
+                and len(bottom.intersection(option)) == 1
+            ):
+                diff = option.difference(top, topl, middle, bottom)
+                five = option
+                bottomr = diff
+                topr = topr.difference(bottomr)
+                bottom = option.difference(top, topl, middle, bottomr)
+                bottoml = bottoml.difference(bottom)
+                break
+
+        # Solve 3
+        options = []
+        for option in observations_len_5(input[0]):
+            options.append(set(list(option)))
+
+        for option in options:
+            if option != five:
+                middle = option.difference(bottomr, topr, top, bottom)
+                topl = topl.difference(middle)
+                three = option
+
+        mapping = {
+            "a": "".join(top),
+            "b": "".join(topr),
+            "c": "".join(bottomr),
+            "d": "".join(bottom),
+            "e": "".join(bottoml),
+            "f": "".join(topl),
+            "g": "".join(middle),
+        }
+
+        return mapping
+
+
 def read_file(filename) -> List[str]:
     with open(filename, "r") as contents:
         readings = []
