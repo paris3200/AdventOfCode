@@ -1,17 +1,80 @@
-from typing import Optional, List
+from typing import List, Optional, Dict
 
 
-display_patterns = []
-display_patterns.append({"a", "b", "c", "e", "f", "g"})
-display_patterns.append({"c", "f"})
-display_patterns.append({"a", "c", "d", "e", "g"})
-display_patterns.append({"a", "c", "d", "f", "g"})
-display_patterns.append({"b", "c", "d", "f"})
-display_patterns.append({"a", "b", "d", "f", "g"})
-display_patterns.append({"a", "b", "d", "e", "f", "g"})
-display_patterns.append({"a", "c", "f"})
-display_patterns.append({"a", "b", "c", "d", "e", "f", "g"})
-display_patterns.append({"a", "b", "c", "d", "f", "g"})
+class Display:
+    def __init__(self, mapping: Dict[str, str]) -> None:
+        self.map = mapping
+
+        self.numbers = {}
+        self.numbers[0] = set(
+            self.map["a"]
+            + self.map["b"]
+            + self.map["c"]
+            + self.map["d"]
+            + self.map["e"]
+            + self.map["f"]
+        )
+        self.numbers[1] = set(self.map["b"] + self.map["c"])
+        self.numbers[2] = set(
+            self.map["a"]
+            + self.map["b"]
+            + self.map["d"]
+            + self.map["e"]
+            + self.map["g"]
+        )
+        self.numbers[3] = set(
+            self.map["a"]
+            + self.map["b"]
+            + self.map["c"]
+            + self.map["d"]
+            + self.map["g"]
+        )
+        self.numbers[4] = set(
+            self.map["b"] + self.map["c"] + self.map["f"] + self.map["g"]
+        )
+        self.numbers[5] = set(
+            self.map["a"]
+            + self.map["c"]
+            + self.map["d"]
+            + self.map["f"]
+            + self.map["g"]
+        )
+        self.numbers[6] = set(
+            self.map["a"]
+            + self.map["c"]
+            + self.map["d"]
+            + self.map["e"]
+            + self.map["f"]
+            + self.map["g"]
+        )
+        self.numbers[7] = set(self.map["a"] + self.map["b"] + self.map["c"])
+        self.numbers[8] = set(
+            self.map["a"]
+            + self.map["b"]
+            + self.map["c"]
+            + self.map["d"]
+            + self.map["e"]
+            + self.map["f"]
+            + self.map["g"]
+        )
+        self.numbers[9] = set(
+            self.map["a"]
+            + self.map["b"]
+            + self.map["c"]
+            + self.map["d"]
+            + self.map["f"]
+            + self.map["g"]
+        )
+
+    def convert_to_int(self, output: List[str]) -> int:
+        displayed_number = ""
+        for num in output:
+            num = set(list(num))
+            for key, value in self.numbers.items():
+                if num == value:
+                    displayed_number += str(key)
+
+        return int(displayed_number)
 
 
 def get_one(input: list) -> Optional[str]:

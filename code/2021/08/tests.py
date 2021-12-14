@@ -1,46 +1,15 @@
-from aoc_08 import (build_numbers, display_patterns, get_eight, get_four,
-                    get_one, get_seven, observations_len_5, part_one, part_two,
-                    read_file, solve_display)
-
-
-def test_set0_has_6_characters():
-    assert len(display_patterns[0]) == 6
-
-
-def test_set1_has_2_characters():
-    assert len(display_patterns[1]) == 2
-
-
-def test_set2_has_5_characters():
-    assert len(display_patterns[2]) == 5
-
-
-def test_set3_has_5_characters():
-    assert len(display_patterns[3]) == 5
-
-
-def test_set4_has_4_characters():
-    assert len(display_patterns[4]) == 4
-
-
-def test_set5_has_5_characters():
-    assert len(display_patterns[5]) == 5
-
-
-def test_set6_has_6_characters():
-    assert len(display_patterns[6]) == 6
-
-
-def test_set7_has_3_characters():
-    assert len(display_patterns[7]) == 3
-
-
-def test_set8_has_7_characters():
-    assert len(display_patterns[8]) == 7
-
-
-def test_set9_has_6_characters():
-    assert len(display_patterns[9]) == 6
+from aoc_08 import (
+    get_eight,
+    get_four,
+    get_one,
+    get_seven,
+    observations_len_5,
+    part_one,
+    part_two,
+    read_file,
+    solve_display,
+    Display,
+)
 
 
 def test_get_four():
@@ -98,3 +67,19 @@ def test_observations_len_5():
     assert result == expected
 
 
+
+
+def test_display_convert_to_int():
+    readings = ["cdfeb", "fcadb", "cdfeb", "cdbaf"]
+    mapping = {
+        "a": "d",
+        "b": "a",
+        "c": "b",
+        "d": "c",
+        "e": "g",
+        "f": "e",
+        "g": "f",
+    }
+    display = Display(mapping)
+    result = display.convert_to_int(readings)
+    assert result == 5353
