@@ -1,14 +1,6 @@
-from aoc_08 import (
-    display_patterns,
-    get_four,
-    get_one,
-    get_seven,
-    get_eight,
-    read_file,
-    part_one,
-    part_two,
-    get_occurances,
-)
+from aoc_08 import (build_numbers, display_patterns, get_eight, get_four,
+                    get_one, get_seven, observations_len_5, part_one, part_two,
+                    read_file, solve_display)
 
 
 def test_set0_has_6_characters():
@@ -95,3 +87,14 @@ def test_part_one_with_test_data():
     result = part_one(data)
 
     assert result == 26
+
+
+def test_observations_len_5():
+    data = "data/08_test.data"
+    observations = read_file(data)
+
+    result = observations_len_5(observations[0][0])
+    expected = ["fdcge", "fecdb", "fabcd"]
+    assert result == expected
+
+

@@ -42,6 +42,29 @@ def get_eight(input: list) -> Optional[str]:
     return None
 
 
+def observations_len_5(input: List[str]) -> List[str]:
+    """
+    Get all observations that are 5 characters long.
+
+
+    Parameters
+    ----------
+    input : List[str]
+        All of the observations.
+
+    Returns
+    -------
+    List[str]
+        The options with a length of 5.
+    """
+    possibles = []
+    for segment in input:
+        if len(segment) == 5:
+            possibles.append(segment)
+
+    return possibles
+
+
 def read_file(filename) -> List[str]:
     with open(filename, "r") as contents:
         readings = []
