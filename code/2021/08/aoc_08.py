@@ -1,4 +1,4 @@
-from typing import List, Optional, Dict
+from typing import Dict, List, Optional
 
 
 class Display:
@@ -73,7 +73,6 @@ class Display:
             for key, value in self.numbers.items():
                 if num == value:
                     displayed_number += str(key)
-
         return int(displayed_number)
 
 
@@ -107,7 +106,7 @@ def get_eight(input: list) -> Optional[str]:
 
 def observations_len_5(input: List[str]) -> List[str]:
     """
-    Get all observations that are 5 characters long.
+    Get all observations that could be 5, 3, or 2.
 
 
     Parameters
@@ -128,19 +127,20 @@ def observations_len_5(input: List[str]) -> List[str]:
     return possibles
 
 
-def solve_display(input: list):
-    top = {"a", "b", "c", "d", "f", "g"}
-    topl = {"a", "b", "c", "d", "f", "g"}
-    topr = {"a", "b", "c", "d", "f", "g"}
-    middle = {"a", "b", "c", "d", "f", "g"}
-    bottoml = {"a", "b", "c", "d", "f", "g"}
-    bottomr = {"a", "b", "c", "d", "f", "g"}
-    bottom = {"a", "b", "c", "d", "f", "g"}
+def solve_display(input: List[List[str]]) -> Dict[str, str]:
+    top = {"a", "b", "c", "d", "e", "f", "g"}
+    topl = {"a", "b", "c", "d", "e", "f", "g"}
+    topr = {"a", "b", "c", "d", "e", "f", "g"}
+    middle = {"a", "b", "c", "d", "e", "f", "g"}
+    bottoml = {"a", "b", "c", "d", "e", "f", "g"}
+    bottomr = {"a", "b", "c", "d", "e", "f", "g"}
+    bottom = {"a", "b", "c", "d", "e", "f", "g"}
 
     # Solve top if 1 and 7 present
     seven = get_seven(input[0])
     one = get_one(input[0])
-    if seven and one:
+    four = get_four(input[0])
+    if seven and one and four:
         seven = set(list(seven))
         one = set(list(one))
 
@@ -152,7 +152,7 @@ def solve_display(input: list):
         bottomr = set(list(one))
 
         # Narrow down topl and middle
-        four = set(list(get_four(input[0])))
+        four = set(list(four))
         middle = four.difference(one)
         topl = four.difference(one)
 
@@ -161,32 +161,42 @@ def solve_display(input: list):
 
         # Solve 5 and bottoml, bottomr, bottom
         options = []
+        # Get possibles for 5, 3, 2
         for option in observations_len_5(input[0]):
             options.append(set(list(option)))
 
         for option in options:
+            # If true, the option is number 5
             if (
-                len(topr.intersection(option)) == 1
+                len(bottomr.intersection(option)) == 1
                 and len(bottom.intersection(option)) == 1
+                and len(topl.intersection(option)) == 2
             ):
                 diff = option.difference(top, topl, middle, bottom)
-                five = option
                 bottomr = diff
                 topr = topr.difference(bottomr)
                 bottom = option.difference(top, topl, middle, bottomr)
                 bottoml = bottoml.difference(bottom)
                 break
 
-        # Solve 3
-        options = []
+        # Get possibles for 5, 3, 2
         for option in observations_len_5(input[0]):
             options.append(set(list(option)))
 
         for option in options:
-            if option != five:
-                middle = option.difference(bottomr, topr, top, bottom)
+            # If true, option is number 2
+            if (
+                len(option.intersection(middle)) == 1
+                and len(option.intersection(bottomr)) == 0
+                and not (
+                    # Not Number 5
+                    len(bottomr.intersection(option)) == 1
+                    and len(bottom.intersection(option)) == 1
+                    and len(topl.intersection(option)) == 2
+                )
+            ):
+                middle = option.difference(top, topr, bottoml, bottom)
                 topl = topl.difference(middle)
-                three = option
 
         mapping = {
             "a": "".join(top),
@@ -201,7 +211,7 @@ def solve_display(input: list):
         return mapping
 
 
-def read_file(filename) -> List[str]:
+def read_file(filename) -> List[List[str]]:
     with open(filename, "r") as contents:
         readings = []
         for line in contents:
@@ -235,8 +245,14 @@ def part_one(filename: str) -> int:
     return get_occurances(readings)
 
 
-def part_two():
-    pass
+def part_two(filename: str) -> int:
+    sum_output = 0
+    readings = read_file(filename)
+    for line in readings:
+        mapping = solve_display(line)
+        display = Display(mapping)
+        sum_output += display.convert_to_int(line[1])
+    return sum_output
 
 
 if __name__ == "__main__":
@@ -246,4 +262,4 @@ if __name__ == "__main__":
     print(f"In the output values, 1, 4, 7, 8 appear:  {count} times")
 
     print("Part Two")
-    part_two()
+    print(f"The sum of the output values: {part_two(filename)}")

@@ -1,4 +1,7 @@
+import pytest
+
 from aoc_08 import (
+    Display,
     get_eight,
     get_four,
     get_one,
@@ -8,7 +11,6 @@ from aoc_08 import (
     part_two,
     read_file,
     solve_display,
-    Display,
 )
 
 
@@ -68,8 +70,19 @@ def test_observations_len_5():
 
 
 def test_solve_display():
-    observations = "acedgfb cdfbe gcdfa fbcad dab cefabd cdfgeb eafb cagedb ab".split()
-    readings = "cdfeb fcadb cdfeb cdbaf".split
+    observations = [
+        "acedgfb",
+        "cdfbe",
+        "gcdfa",
+        "fbcad",
+        "dab",
+        "cefabd",
+        "cdfgeb",
+        "eafb",
+        "cagedb",
+        "ab",
+    ]
+    readings = ["cdfeb", "fcadb", "cdfeb", "cdbaf"]
 
     result = solve_display([observations, readings])
     expected = {
@@ -82,6 +95,27 @@ def test_solve_display():
         "g": "f",
     }
     assert result == expected
+
+
+def test_solve_display_test_data_line_1():
+    observations = "be cfbegad cbdgef fgaecd cgeb fdcge agebfd fecdb fabcd edb".split()
+    readings = ["fdgacbe", "cefdb", "cefbgd", "gcbe"]
+
+    mapping = solve_display([observations, readings])
+    display = Display(mapping)
+    result = display.convert_to_int(readings)
+    assert result == 8394
+
+
+def test_solve_display_test_data_line_3():
+    observations = "fgaebd cg bdaec gdafb agbcfd gdcbef bgcad gfac gcb cdgabef ".split()
+    readings = ["cg", "cg", "fdcagb",  "cbg"]
+
+
+    mapping = solve_display([observations, readings])
+    display = Display(mapping)
+    result = display.convert_to_int(readings)
+    assert result == 1197
 
 
 def test_display_convert_to_int():
@@ -98,3 +132,16 @@ def test_display_convert_to_int():
     display = Display(mapping)
     result = display.convert_to_int(readings)
     assert result == 5353
+
+def test_part_two_with_test_data():
+    filename = "data/08_test.data"
+    result = part_two(filename)
+
+    assert result == 61229
+
+
+def test_part_two_with_problem_data():
+    filename = "data/08.data"
+    result = part_two(filename)
+
+    assert result == 1070188
