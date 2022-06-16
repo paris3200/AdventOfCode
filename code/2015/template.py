@@ -1,3 +1,4 @@
+import pytest
 import utils
 
 
@@ -9,17 +10,19 @@ def part_two(data):
     pass
 
 
-def test_part_one(data):
+@pytest.mark.skip
+def test_part_one():
     result = part_one(data)
     assert result is True
 
-def test_part_two(data):
+@pytest.mark.skip
+def test_part_two():
     result = part_two(data)
     assert result is True
 
 
 if __name__ == "__main__":
-    data = "data/xx.data"
+    data = "../data/xx.data"
     print("Part One")
     print(part_one(data))
     print("Part Two")
