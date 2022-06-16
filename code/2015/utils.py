@@ -15,6 +15,7 @@ def read_file(filename, datatype):
 
 
 def read_lines(filename):
+    """Returns each line in a file as a list item, including new line characters."""
     with open(filename, "r") as f:
         data = f.readlines()
 
