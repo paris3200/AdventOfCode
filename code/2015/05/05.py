@@ -136,14 +136,15 @@ def part_two(data):
 def test_part_one():
     data = "../data/05.data"
     input = utils.read_lines(data)
-    result = part_one(inputdata)
+    result = part_one(input)
     assert result == 236
 
 
-@pytest.mark.skip
-def test_part_two(data):
-    result = part_two(data)
-    assert result is True
+def test_part_two():
+    data = "../data/05.data"
+    input = utils.read_lines(data)
+    result = part_two(input)
+    assert result == 51
 
 
 if __name__ == "__main__":
