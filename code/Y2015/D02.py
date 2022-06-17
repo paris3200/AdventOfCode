@@ -1,4 +1,4 @@
-import utils
+from Y2015 import utils
 
 def calculate_surface_area(s1: int, s2: int, s3: int) -> int:
     """Returns the surface area of a right rectangular prism."""
@@ -58,40 +58,8 @@ def part_two(data):
     return sum
 
 
-def test_calculate_smallest_perimeter():
-    assert 10 == calculate_smallest_perimeter(2, 3, 4)
-    assert 4 == calculate_smallest_perimeter(1, 1, 10)
-
-
-def test_calculate_surface_area():
-    assert 52 == calculate_surface_area(2, 3, 4)
-    assert 42 == calculate_surface_area(1, 1, 10)
-
-
-def test_calculate_smallest_area():
-    assert 6 == calculate_smallest_area(2, 3, 4)
-    assert 1 == calculate_smallest_area(1, 1, 10)
-
-
-def test_calculate_wrapping_paper():
-    assert calculate_wrapping_paper(2, 3, 4) == 58
-
-def test_caculate_ribbon():
-    assert 34 == calculate_ribbon(2, 3, 4)
-
-def test_part_one():
-    data = "../data/02.txt"
-    result = part_one(data)
-    assert 1606483 == result
-
-
-def test_part_two():
-    result = part_two()
-    assert result is True
-
-
 if __name__ == "__main__":
-    data = "../data/02.txt"
+    data = "data/02.txt"
     print("Part One")
     print(part_one(data))
     print("Part Two")

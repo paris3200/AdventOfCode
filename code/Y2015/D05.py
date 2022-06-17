@@ -1,8 +1,7 @@
 import re
-import pytest
 import string
 
-import utils
+from Y2015 import utils
 
 
 def check_three_vowels(text: str) -> bool:
@@ -74,50 +73,8 @@ def check_nice_words(text: str, version="1.0") -> bool:
     return False
 
 
-def test_check_repeat_charactes():
-    assert True is check_repeat_characters("aabcde")
-    assert False is check_repeat_characters("abcde")
-    assert True is check_repeat_characters("abccde")
-
-
-def test_check_three_vowels():
-    assert True is check_three_vowels("aei")
-    assert True is check_three_vowels("xazegov")
-    assert True is check_three_vowels("aeiouaeiouaeiou")
-    assert False is check_three_vowels("dvszwmarrgswjxmb")
-
-
-def test_forbidden_characters():
-    assert True is check_forbidden_characters("haegwjzuvuyypxyu")
-
-
-def test_check_letter_paris():
-    assert True is check_letter_pairs("xyxy")
-    assert True is check_letter_pairs("aabcdefgaa")
-    assert False is check_letter_pairs("aaa")
-
-
-def test_check_single_letter_repeat_with_single_char_between():
-    assert True is check_single_letter_repeat_with_single_char_between("xyx")
-    assert True is check_single_letter_repeat_with_single_char_between("abcdefeghi")
-
-
-def test_nice_words():
-    assert True is check_nice_words("ugknbfddgicrmopn")
-    assert True is check_nice_words("aaa")
-    assert False is check_nice_words("jchzalrnumimnmhp")
-    assert False is check_nice_words("haegwjzuvuyypxyu")
-    assert False is check_nice_words("haegwjzuvuyypxyu")
-
-
-def test_nice_words_version_2():
-    assert True is check_nice_words("qjhvhtzxzqqjkmpb", version="2.0")
-    assert True is check_nice_words("xxyxx", version="2.0")
-    assert False is check_nice_words("uurcxstgmygtbstg", version="2.0")
-    assert False is check_nice_words("ieodomkazucvgmuy", version="2.0")
-
-
-def part_one(data):
+def part_one():
+    data = utils.read_lines("data/05.data")
     sum = 0
     for word in data:
         if check_nice_words(word):
@@ -125,32 +82,16 @@ def part_one(data):
     return sum
 
 
-def part_two(data):
+def part_two():
+    data = utils.read_lines("data/05.data")
     sum = 0
     for word in data:
         if check_nice_words(word, version="2.0"):
             sum += 1
     return sum
 
-
-def test_part_one():
-    data = "../data/05.data"
-    input = utils.read_lines(data)
-    result = part_one(input)
-    assert result == 236
-
-
-def test_part_two():
-    data = "../data/05.data"
-    input = utils.read_lines(data)
-    result = part_two(input)
-    assert result == 51
-
-
 if __name__ == "__main__":
-    data = "../data/05.data"
-    input = utils.read_lines(data)
     print("Part One")
-    print(part_one(input))
+    print(part_one())
     print("Part Two")
-    print(part_two(input))
+    print(part_two())

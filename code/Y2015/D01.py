@@ -1,4 +1,4 @@
-import utils
+import Y2015.utils
 
 
 def part_one(data):
@@ -25,19 +25,6 @@ def part_two(data):
         if floor == -1:
             return i+1
 
-
-def test_part_one():
-    assert part_one(["(())"]) == 0
-    assert part_one(["((("]) == 3
-    assert part_one(["(()(()("]) == 3
-    assert part_one(["))((((("]) == 3
-    assert part_one(["())"]) == -1
-    assert part_one(["))("]) == -1
-    assert part_one([")))"]) == -3
-
-def test_part_two():
-    assert part_two([")"]) == 1
-    assert part_two(["()())"]) == 5
 
 
 if __name__ == "__main__":
