@@ -1,5 +1,7 @@
-import Y2015.utils
-
+if __name__ != "__main__":
+    from Y2015 import utils
+else:
+    import utils
 
 def part_one(data):
     input = list(data[0])
