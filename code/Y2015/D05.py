@@ -1,7 +1,11 @@
 import re
 import string
 
-from Y2015 import utils
+
+if __name__ != "__main__":
+    from Y2015 import utils
+else:
+    import utils
 
 
 def check_three_vowels(text: str) -> bool:
@@ -89,6 +93,7 @@ def part_two():
         if check_nice_words(word, version="2.0"):
             sum += 1
     return sum
+
 
 if __name__ == "__main__":
     print("Part One")
