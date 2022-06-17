@@ -1,6 +1,6 @@
 import pytest
 
-from Y2015.D06 import Grid
+from Y2015.D06 import Grid, process_instruction
 
 
 def test_grid_is_created_with_default_value():
@@ -78,6 +78,22 @@ def test_stats():
         [0, 0, 0, 0, 0],
     ]
     assert grid.stats() == {"on": 10, "off": 15}
+
+
+def test_process_instruction_toggle():
+    result = process_instruction("toggle 660,55 through 986,197")
+    expected = {"action": "toggle", "start_x": 660, "start_y": 55, "end_x": 986, "end_y": 197}
+    assert result == expected
+
+def test_process_instruction_on():
+    result = process_instruction("turn on 660,55 through 986,197")
+    expected = {"action": "on", "start_x": 660, "start_y": 55, "end_x": 986, "end_y": 197}
+    assert result == expected
+
+def test_process_instruction_off():
+    result = process_instruction("turn off 660,55 through 986,197")
+    expected = {"action": "off", "start_x": 660, "start_y": 55, "end_x": 986, "end_y": 197}
+    assert result == expected
 
 @pytest.mark.skip("Not solved")
 def test_part_one():

@@ -99,20 +99,115 @@ class Grid:
         return status
 
 
-def process_instruction(instruction) -> dict:
+def process_instruction(line) -> dict:
     """turn off 660,55 through 986,197"""
+    instruction = {"action": None, "start_x": 0, "start_y": 0, "end_x": 0, "end_y": 0}
+    input = line.split()
+    if input[0] == "toggle":
+        instruction["action"] = "toggle"
+        point = input[1].split(',')
+        instruction["start_x"] = int(point[0])
+        instruction["start_y"] = int(point[1])
+        point = input[3].split(',')
+        instruction["end_x"] = int(point[0])
+        instruction["end_y"] = int(point[1])
+    else:
+        if input[1] == "off":
+            instruction["action"] = "off"
+        elif input[1] == "on":
+            instruction["action"] = "on"
+        point = input[2].split(',')
+        instruction["start_x"] = int(point[0])
+        instruction["start_y"] = int(point[1])
+        point = input[4].split(',')
+        instruction["end_x"] = int(point[0])
+        instruction["end_y"] = int(point[1])
 
+    return instruction
+
+
+class Dimmable_Grid(Grid):
+
+    def turn_on_point(self, x: int, y: int) -> None:
+        """Increases the brightness of point x,y by 1.
+
+        Paramaters
+        ----------
+        x: int
+            X value of point
+        y: int
+            Y value of point
+        """
+        self.grid[x][y] += 1
+
+    def turn_off_point(self, x: int, y: int) -> None:
+        """Decreases the brightness of point x,y by 1 to a minimum of 0.
+
+        Paramaters
+        ----------
+        x: int
+            X value of point
+        y: int
+            Y value of point
+        """
+        if self.grid[x][y] != 0:
+            self.grid[x][y] -= 1
+
+    def toggle_point(self, x: int, y: int) -> None:
+        """Increases the brightness of point x,y by 2.
+
+        Paramaters
+        ----------
+        x: int
+            X value of point
+        y: int
+            Y value of point
+        """
+        self.grid[x][y] += 2
+    
+    def stats(self) -> dict:
+        """Returns a dict containing the number of gird points turned on and turned off."""
+        status = {"brightness": 0, "off": 0}
+        for y in range(0, self.max_y + 1):
+            for x in range(0, self.max_x + 1):
+                if self.grid[x][y] == 0:
+                    status["off"] += 1
+                else:
+                    status["brightness"] += self.grid[x][y]
+        return status
 
 def part_one(data):
     grid = Grid(1000, 1000)
+    for line in utils.read_lines(data):
+        instruction = process_instruction(line)
+        if instruction['action'] == "toggle":
+            grid.switch_range(instruction['start_x'], instruction['start_y'], instruction['end_x'], instruction['end_y'], "toggle")
+        elif instruction['action'] == "on":
+            grid.switch_range(instruction['start_x'], instruction['start_y'], instruction['end_x'], instruction['end_y'], "on")
+        elif instruction['action'] == "off":
+            grid.switch_range(instruction['start_x'], instruction['start_y'], instruction['end_x'], instruction['end_y'], "off")
+
+    stats = grid.stats()
+    return stats['on']
 
 
 def part_two(data):
-    pass
+    grid = Dimmable_Grid(1000, 1000)
+    for line in utils.read_lines(data):
+        instruction = process_instruction(line)
+        if instruction['action'] == "toggle":
+            grid.switch_range(instruction['start_x'], instruction['start_y'], instruction['end_x'], instruction['end_y'], "toggle")
+        elif instruction['action'] == "on":
+            grid.switch_range(instruction['start_x'], instruction['start_y'], instruction['end_x'], instruction['end_y'], "on")
+        elif instruction['action'] == "off":
+            grid.switch_range(instruction['start_x'], instruction['start_y'], instruction['end_x'], instruction['end_y'], "off")
+
+    stats = grid.stats()
+    return stats['brightness']
 
 
 if __name__ == "__main__":
-    data = "../data/06.data"
+    data = "data/06.data"
     print("Part One")
     print(part_one(data))
     print("Part Two")
