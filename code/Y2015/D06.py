@@ -19,7 +19,7 @@ class Grid:
         """
         self.grid = [[0 for y in range(y)] for x in range(x)]
         self.max_x = x - 1
-        self.max_y = x - 1
+        self.max_y = y - 1
 
     def turn_on_point(self, x: int, y: int) -> None:
         """Sets the point x,y to 1 to signify on.
