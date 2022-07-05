@@ -53,9 +53,9 @@ class Grid:
         default_value: int
             Default status for each point.
         """
-        self.grid = [[default_value for y in range(y+1)] for x in range(x+1)]
+        self.grid = [[default_value for x in range(x)] for y in range(y)]
         self.max_x = x
-        self.max_y = x
+        self.max_y = y
 
     def turn_on_point(self, x: int, y: int) -> None:
         """Sets the point x,y to 1 to signify on.
@@ -97,7 +97,7 @@ class Grid:
             self.turn_off_point(x, y)
 
     def increase_point(self, x: int, y: int, increase: int = 1) -> None:
-        """Sets the point x,y to 1 to signify on.
+        """Increases the value at point x,y by the amount of increase.
 
         Paramaters
         ----------
@@ -113,8 +113,8 @@ class Grid:
     def stats(self) -> dict:
         """Returns a dict containing the number of gird points turned on and turned off."""
         status = {"total_value_on": 0, "on": 0, "off": 0}
-        for y in range(0, self.max_y + 1):
-            for x in range(0, self.max_x + 1):
+        for y in range(0, self.max_y):
+            for x in range(0, self.max_x):
                 if self.grid[y][x] == 0:
                     status["off"] += 1
                 else:
@@ -124,6 +124,6 @@ class Grid:
 
     def __repr__(self):
         grid_str = ""
-        for y in range(0, self.max_y + 1):
+        for y in range(0, self.max_y):
             grid_str += f"{self.grid[y]}\n"
         return grid_str
