@@ -3,26 +3,30 @@ import pytest
 from Y2015 import D03
 
 
-@pytest.mark.skip()
-def test_grid_size():
-    assert [1, 0] == D03.grid_size(">")
-    assert [2, 2] == D03.grid_size("^>v<")
+def test_grid_size_creates_minimum():
+    assert [5, 5] == D03.grid_size(">")
 
 
-@pytest.mark.skip()
-def test_create_grid():
-    assert [[0], [0]] == D03.create_grid([2, 1])
-    assert [[0]] == D03.create_grid([1, 1])
-
-
-@pytest.mark.skip()
-def test_count_nonzeros_in_grid():
-    assert 1 == D03.count_nonzeros_in_grid([[0], [1]])
-
-
-@pytest.mark.skip()
 def test_deliver_presents():
-    assert [[1, 1]] == D03.deliver_presents(">")
+    grid = D03.deliver_presents(">")
+
+    assert grid.grid == [
+        [0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0],
+        [0, 0, 1, 1, 0],
+        [0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0],
+    ]
+
+
+def test_deliver_presents_delivers_correct_amount():
+    #grid = D03.deliver_presents(">")
+    #stats = grid.stats()
+    #assert stats['on'] == 2
+
+    grid = D03.deliver_presents("^v^v^v^v^v")
+    stats = grid.stats()
+    assert stats['on'] == 2
 
 
 @pytest.mark.skip()
