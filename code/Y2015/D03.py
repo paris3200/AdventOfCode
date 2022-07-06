@@ -1,9 +1,9 @@
 if __name__ != "__main__":
-    from Y2015.utils import Grid
     from Y2015 import utils
+    from Y2015.utils import Grid
 else:
-    from utils import Grid
     import utils
+    from utils import Grid
 
 input = utils.read_lines("data/03.data")
 DATA = input[0]
@@ -33,10 +33,10 @@ def process_instruction(instruction: str, start: list) -> list:
     return start
 
 
-def create_grid(x: int, y: int) -> list[Grid, int, int]:
+def create_grid(x: int, y: int) -> tuple[Grid, int, int]:
     index = [int(x / 2), int(y / 2)]
     grid = Grid(x, y)
-    return [grid, index[0], index[1]]
+    return (grid, index[0], index[1])
 
 
 def deliver_presents(nav_list: str, grid: Grid, index_x: int, index_y: int) -> Grid:
