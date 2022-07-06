@@ -20,9 +20,9 @@ def test_deliver_presents():
 
 
 def test_deliver_presents_delivers_correct_amount():
-    #grid = D03.deliver_presents(">")
-    #stats = grid.stats()
-    #assert stats['on'] == 2
+    grid = D03.deliver_presents(">")
+    stats = grid.stats()
+    assert stats['on'] == 2
 
     grid = D03.deliver_presents("^v^v^v^v^v")
     stats = grid.stats()
