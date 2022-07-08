@@ -44,7 +44,6 @@ def format_instruction(instruction: str) -> dict:
     else:
         command["input1"] = check_numeric(instruction[0])
 
-
     return command
 
 
@@ -137,7 +136,7 @@ def process_instruction(instruction: dict, wires: list[dict[str, int]]) -> list 
             signal_value = wire1
         else:
             return None
-            
+
     # If wire exists already update it.
     for wire in wires:
         if wire["identifier"] == instruction["output"]:
@@ -162,15 +161,6 @@ def run_instructions(commands, wires):
     return wires
 
 
-def load_initial_signals(commands):
-    wires = []
-    for command in commands.copy():
-        if command["signal"] != None:
-            wires = process_instruction(command, wires)
-            commands.remove(command)
-    return [wires, commands]
-
-
 def part_one(data=DATA, wire=None):
     commands = []
     for instruction in data:
@@ -183,7 +173,6 @@ def part_one(data=DATA, wire=None):
     commands = result[1]
     """
     wires = []
-
 
     final_result = run_instructions(commands, wires)
     if wire:

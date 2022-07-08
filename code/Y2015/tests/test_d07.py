@@ -237,44 +237,21 @@ def test_part_one_with_sample_data_reordered():
     assert result == 123
 
 
-@pytest.mark.skip("Removing Function")
-def test_load_initial_signals_only_loads_initial_signals():
-    instructions = utils.read_lines("data/07_test.data")
-    commands = []
-    for instruction in instructions:
-        commands.append(D07.format_instruction(instruction))
-    wires = []
-    wires.append({"identifier": "x", "signal": 123})
-    wires.append({"identifier": "y", "signal": 456})
-    result = D07.load_initial_signals(commands)
-    assert result[0] == wires
-
-
-@pytest.mark.skip("Removing Function")
-def test_load_initial_signals_real_data():
-    instructions = utils.read_lines("data/07.data")
-    commands = []
-    for instruction in instructions:
-        commands.append(D07.format_instruction(instruction))
-    result = D07.load_initial_signals(commands)
-    wires = []
-    wires.append({"identifier": "b", "signal": 19138})
-    wires.append({"identifier": "c", "signal": 0})
-    assert result[0] == wires
-
 def test_case_problem_set_from_reddit_one():
-    instructions = ['12 -> x', '1 OR x -> b', 'b -> a']
+    instructions = ["12 -> x", "1 OR x -> b", "b -> a"]
     result = D07.part_one(instructions, "a")
     assert result == 13
 
+
 def test_case_problem_set_from_reddit_two():
-    instructions = ['0 -> b', '1 AND b -> a']
+    instructions = ["0 -> b", "1 AND b -> a"]
     result = D07.part_one(instructions, "a")
     assert result == 0
 
+
 def test_part_one_correct_answer():
     result = D07.part_one(wire="a")
-    assert result  == 16076
+    assert result == 16076
 
 
 @pytest.mark.skip("Not Implemented")
