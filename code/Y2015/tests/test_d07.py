@@ -16,6 +16,17 @@ def test_format_instruction_when_single_applied_to_wire():
     assert command == D07.format_instruction("123 -> x")
 
 
+def test_format_instruction_when_wire_applied_to_wire():
+    command = {
+        "input1": "lx",
+        "input2": None,
+        "gate": None,
+        "shift-value": None,
+        "signal": None,
+        "output": "a",
+    }
+    assert command == D07.format_instruction("lx -> a")
+
 
 def test_format_instruction_and_gate():
     command = {
@@ -27,6 +38,18 @@ def test_format_instruction_and_gate():
         "output": "z",
     }
     assert command == D07.format_instruction("x AND y -> z")
+
+
+def test_format_instruction_and_gate_signal_and_reference():
+    command = {
+        "input1": 1,
+        "input2": "io",
+        "gate": "AND",
+        "shift-value": None,
+        "signal": None,
+        "output": "ip",
+    }
+    assert command == D07.format_instruction("1 AND io -> ip")
 
 
 def test_format_instruction_or_gate():
@@ -94,6 +117,7 @@ def test_process_instruction_with_update_to_wire():
     assert result == expected
     pass
 
+
 def test_process_instruction_and():
     command = {
         "input1": "x",
@@ -124,7 +148,7 @@ def test_process_instruction_and_missing_signal():
     }
     wires = []
     wires.append({"identifier": "y", "signal": 456})
-    expected = wires.copy()
+    expected = None
     result = D07.process_instruction(command, wires)
     assert result == expected
 
@@ -198,10 +222,59 @@ def test_part_one_with_sample_data():
     assert result == wires
 
 
-@pytest.mark.skip("Not Implemented")
+def test_part_one_with_sample_data_reordered():
+    instructions = utils.read_lines("data/07_test_2.data")
+    wires = []
+    wires.append({"identifier": "x", "signal": 123})
+    wires.append({"identifier": "y", "signal": 456})
+    wires.append({"identifier": "d", "signal": 72})
+    wires.append({"identifier": "e", "signal": 507})
+    wires.append({"identifier": "f", "signal": 492})
+    wires.append({"identifier": "g", "signal": 114})
+    wires.append({"identifier": "h", "signal": 65412})
+    wires.append({"identifier": "i", "signal": 65079})
+    result = D07.part_one(instructions, "x")
+    assert result == 123
+
+
+@pytest.mark.skip("Removing Function")
+def test_load_initial_signals_only_loads_initial_signals():
+    instructions = utils.read_lines("data/07_test.data")
+    commands = []
+    for instruction in instructions:
+        commands.append(D07.format_instruction(instruction))
+    wires = []
+    wires.append({"identifier": "x", "signal": 123})
+    wires.append({"identifier": "y", "signal": 456})
+    result = D07.load_initial_signals(commands)
+    assert result[0] == wires
+
+
+@pytest.mark.skip("Removing Function")
+def test_load_initial_signals_real_data():
+    instructions = utils.read_lines("data/07.data")
+    commands = []
+    for instruction in instructions:
+        commands.append(D07.format_instruction(instruction))
+    result = D07.load_initial_signals(commands)
+    wires = []
+    wires.append({"identifier": "b", "signal": 19138})
+    wires.append({"identifier": "c", "signal": 0})
+    assert result[0] == wires
+
+def test_case_problem_set_from_reddit_one():
+    instructions = ['12 -> x', '1 OR x -> b', 'b -> a']
+    result = D07.part_one(instructions, "a")
+    assert result == 13
+
+def test_case_problem_set_from_reddit_two():
+    instructions = ['0 -> b', '1 AND b -> a']
+    result = D07.part_one(instructions, "a")
+    assert result == 0
+
 def test_part_one_correct_answer():
     result = D07.part_one(wire="a")
-    assert result is not None
+    assert result  == 16076
 
 
 @pytest.mark.skip("Not Implemented")
