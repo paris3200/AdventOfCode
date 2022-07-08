@@ -254,6 +254,6 @@ def test_part_one_correct_answer():
     assert result == 16076
 
 
-@pytest.mark.skip("Not Implemented")
 def test_part_two_correct_answer():
-    pass
+    result = D07.part_two(wire="a")
+    assert result == 2797

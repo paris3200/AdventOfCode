@@ -175,16 +175,9 @@ def run_instructions(commands, wires):
 
 def part_one(data=DATA, wire=None):
     commands = []
+    wires = []
     for instruction in data:
         commands.append(format_instruction(instruction))
-
-    """
-    # Load initial signal
-    result = load_initial_signals(commands)
-    wires = result[0]
-    commands = result[1]
-    """
-    wires = []
 
     final_result = run_instructions(commands, wires)
     if wire:
@@ -192,5 +185,18 @@ def part_one(data=DATA, wire=None):
     return wires
 
 
-def part_two(data):
-    pass
+def part_two(data=DATA, wire=None):
+    commands = []
+    signal_override = part_one(wire="a")
+    wires = []
+    wires.append({"identifier": "b", "signal": signal_override})
+
+    for instruction in data:
+        # Prevent orignal signal from being applied
+        if instruction != "19138 -> b":
+            commands.append(format_instruction(instruction))
+
+    final_result = run_instructions(commands, wires)
+    if wire:
+        return get_wire_signal(final_result, wire)
+    return wires
