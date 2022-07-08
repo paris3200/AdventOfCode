@@ -104,7 +104,7 @@ def check_if_signal_or_value(wires, input: str) -> None | int:
             return get_wire_signal(wires, input)
 
 
-def process_instruction(instruction: dict, wires: list[dict[str, int]]) -> list | None:
+def process_instruction(instruction: dict, wires: list[dict[str, int]]) -> list[dict[str, int]] | None:
     signal_value = None
     if instruction["gate"] == "AND":
         wire1 = check_if_signal_or_value(wires, instruction["input1"])
