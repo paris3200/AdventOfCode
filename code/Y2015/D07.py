@@ -24,25 +24,6 @@ class Command:
     output_wire: int = None
 
 
-def check_numeric(input: str) -> int | str:
-    """
-    If a string is numeric, the int value is returned otherwise the string.
-
-    Parameters
-    ----------
-        input:
-            String to check if numeric
-
-    Returns
-    ----------
-        Int value of input if it's numeric or the orignal string if it isn't.
-    """
-    if input.isnumeric():
-        return int(input)
-    else:
-        return input
-
-
 def format_instruction(instruction: str) -> Command():
     c = Command()
     subcommand = instruction.split("->")
