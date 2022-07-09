@@ -1,9 +1,21 @@
-import sys
+from dataclasses import dataclass
 from Y2015.utils import read_lines
 
 
 DATA = read_lines("data/07.data")
-sys.setrecursionlimit(1000)
+
+
+@dataclass()
+class Command:
+    wire1: str = None
+    wire1_signal: int = None
+    wire2: str = None
+    wire2_signal: int = None
+    gate: str = None
+    shift_wire: str = None
+    shift_value: int = None
+    output_signal: str = None
+    output_wire: int = None
 
 
 def check_numeric(input: str) -> int | str:
@@ -25,38 +37,56 @@ def check_numeric(input: str) -> int | str:
         return input
 
 
-def format_instruction(instruction: str) -> dict:
-    command = {
-        "input1": None,
-        "input2": None,
-        "gate": None,
-        "shift-value": None,
-        "signal": None,
-        "output": None,
-    }
+def format_instruction(instruction: str) -> Command():
+    c = Command()
     subcommand = instruction.split("->")
 
     # Assign output wire
-    command["output"] = subcommand[1].strip()
-
-    instruction = subcommand[0].split(" ")
-    if "AND" in instruction or "OR" in instruction:
-        command["input1"] = check_numeric(instruction[0])
-        command["gate"] = instruction[1]
-        command["input2"] = check_numeric(instruction[2])
-    elif "LSHIFT" in instruction or "RSHIFT" in instruction:
-        command["input1"] = check_numeric(instruction[0])
-        command["gate"] = instruction[1]
-        command["shift-value"] = check_numeric(instruction[2])
-    elif "NOT" in instruction:
-        command["gate"] = instruction[0]
-        command["input1"] = check_numeric(instruction[1])
-    elif instruction[0].isnumeric():
-        command["signal"] = int(instruction[0])
+    if subcommand[1].strip().isnumeric():
+        c.output_signal = int(subcommand[1])
     else:
-        command["input1"] = check_numeric(instruction[0])
+        c.output_wire = subcommand[1].strip()
 
-    return command
+    command = subcommand[0].split(" ")
+    if "AND" in command or "OR" in command:
+        c.gate = command[1]
+
+        if command[0].isnumeric():
+            c.wire1_signal = int(command[0])
+        else:
+            c.wire1 = command[0]
+
+        if command[2].isnumeric():
+            c.wire2_signal = int(command[2])
+        else:
+            c.wire2 = command[2]
+
+    elif "LSHIFT" in command or "RSHIFT" in command:
+        c.gate = command[1]
+        if command[0].isnumeric():
+            c.wire1_signal = int(command[0])
+        else:
+            c.wire1 = command[0]
+
+        if command[2].isnumeric():
+            c.shift_value = int(command[2])
+        else:
+            c.shift_wire = command[2]
+    elif "NOT" in command:
+        c.gate = command[0]
+        if command[1].isnumeric():
+            c.wire1_signal = int(command[1])
+        else:
+            c.wire1 = command[1]
+    elif command[0].isnumeric():
+        c.output_signal = int(command[0])
+    else:
+        if command[0].isnumeric():
+            c.wire1_signal = int(command[0])
+        else:
+            c.wire1 = command[0]
+
+    return c
 
 
 def get_wire_signal(wires: list[dict[str, int]], wire_id: str) -> int | None:
@@ -79,82 +109,59 @@ def get_wire_signal(wires: list[dict[str, int]], wire_id: str) -> int | None:
                 return wire["signal"]
 
 
-def check_if_signal_or_value(wires, input: str) -> None | int:
-    """
-    Checks if the signal is numeric or if it's a reference.  If reference,
-    the signal value of the reference is returned if there is one.
-
-
-    Parameters
-    ----------
-        wires:
-            Current state of wires
-        input:
-            Input to be processed
-
-    Returns:
-        Signal Value at reference input or input value
-    """
-    if type(input) == int:
-        return input
-    else:
-        if input.isnumeric():
-            return int(input)
-        else:
-            return get_wire_signal(wires, input)
-
-
-def process_instruction(instruction: dict, wires: list[dict[str, int]]) -> list[dict[str, int]] | None:
+def process_instruction(
+    instruction: Command(), wires: list[dict[str, int]]
+) -> list[dict[str, int]] | None:
     signal_value = None
-    if instruction["gate"] == "AND":
-        wire1 = check_if_signal_or_value(wires, instruction["input1"])
-        wire2 = check_if_signal_or_value(wires, instruction["input2"])
+    c = instruction
 
-        if wire1 is not None and wire2 is not None:
-            signal_value = wire1 & wire2
+    # Check if signal exists for wire references
+    if c.wire1 is not None and c.wire1_signal is None:
+        c.wire1_signal = get_wire_signal(wires, c.wire1)
+    if c.wire2 is not None and c.wire2_signal is None:
+        c.wire2_signal = get_wire_signal(wires, c.wire2)
+
+    if c.gate == "AND":
+        if c.wire1_signal is not None and c.wire2_signal is not None:
+            signal_value = c.wire1_signal & c.wire2_signal
         else:
             return None
-    elif instruction["gate"] == "OR":
-        wire1 = check_if_signal_or_value(wires, instruction["input1"])
-        wire2 = check_if_signal_or_value(wires, instruction["input2"])
-        if wire1 is not None and wire2 is not None:
-            signal_value = wire1 | wire2
+
+    elif c.gate == "OR":
+        if c.wire1_signal is not None and c.wire2_signal is not None:
+            signal_value = c.wire1_signal | c.wire2_signal
         else:
             return None
-    elif instruction["gate"] == "LSHIFT":
-        wire1 = check_if_signal_or_value(wires, instruction["input1"])
-        if wire1 is not None:
-            signal_value = wire1 << instruction["shift-value"]
+    elif c.gate == "LSHIFT":
+        if c.wire1_signal is not None:
+            signal_value = c.wire1_signal << c.shift_value
         else:
             return None
-    elif instruction["gate"] == "RSHIFT":
-        wire1 = check_if_signal_or_value(wires, instruction["input1"])
-        if wire1 is not None:
-            signal_value = wire1 >> instruction["shift-value"]
+    elif c.gate == "RSHIFT":
+        if c.wire1_signal is not None:
+            signal_value = c.wire1_signal >> c.shift_value
         else:
             return None
-    elif instruction["gate"] == "NOT":
-        wire1 = check_if_signal_or_value(wires, instruction["input1"])
-        if wire1 is not None:
+    elif c.gate == "NOT":
+        if c.wire1_signal is not None:
             # 16-bit unsigned Not
-            signal_value = 65535 - wire1
+            signal_value = 65535 - c.wire1_signal
         else:
             return None
-    elif instruction["signal"] is not None:
-        signal_value = instruction["signal"]
+    elif c.output_signal is not None:
+        signal_value = c.output_signal
     else:
-        wire1 = check_if_signal_or_value(wires, instruction["input1"])
-        if wire1 is not None:
-            signal_value = wire1
+        if c.wire1_signal is not None:
+            signal_value = c.wire1_signal
         else:
             return None
 
     # If wire exists already update it.
     for wire in wires:
-        if wire["identifier"] == instruction["output"]:
+        if wire["identifier"] == c.output_wire:
             wire["signal"] = signal_value
             return wires
-    wires.append({"identifier": instruction["output"], "signal": signal_value})
+    wires.append({"identifier": c.output_wire, "signal": signal_value})
     return wires
 
 
