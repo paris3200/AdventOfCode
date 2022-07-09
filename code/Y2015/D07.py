@@ -6,6 +6,12 @@ DATA = read_lines("data/07.data")
 
 
 @dataclass()
+class Wire:
+    identifier: str = None
+    signal: int = None
+
+
+@dataclass()
 class Command:
     wire1: str = None
     wire1_signal: int = None
@@ -89,7 +95,7 @@ def format_instruction(instruction: str) -> Command():
     return c
 
 
-def get_wire_signal(wires: list[dict[str, int]], wire_id: str) -> int | None:
+def get_wire_signal(wires: list[Wire()], wire_id: str) -> int | None:
     """
     Returns the signal value of the wire specified.
 
@@ -105,13 +111,11 @@ def get_wire_signal(wires: list[dict[str, int]], wire_id: str) -> int | None:
     """
     if wires is not None:
         for wire in wires:
-            if wire["identifier"] == wire_id:
-                return wire["signal"]
+            if wire.identifier == wire_id:
+                return wire.signal
 
 
-def process_instruction(
-    instruction: Command(), wires: list[dict[str, int]]
-) -> list[dict[str, int]] | None:
+def process_instruction(instruction: Command(), wires: list[Wire]) -> list[Wire] | None:
     signal_value = None
     c = instruction
 
@@ -158,10 +162,10 @@ def process_instruction(
 
     # If wire exists already update it.
     for wire in wires:
-        if wire["identifier"] == c.output_wire:
-            wire["signal"] = signal_value
+        if wire.identifier == c.output_wire:
+            wire.signal = signal_value
             return wires
-    wires.append({"identifier": c.output_wire, "signal": signal_value})
+    wires.append(Wire(identifier=c.output_wire, signal=signal_value))
     return wires
 
 
@@ -195,8 +199,8 @@ def part_one(data=DATA, wire=None):
 def part_two(data=DATA, wire=None):
     commands = []
     signal_override = part_one(wire="a")
-    wires = []
-    wires.append({"identifier": "b", "signal": signal_override})
+    wires = [] 
+    wires.append(Wire(identifier="b", signal=signal_override))
 
     for instruction in data:
         # Prevent orignal signal from being applied

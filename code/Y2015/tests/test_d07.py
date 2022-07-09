@@ -7,6 +7,7 @@ from Y2015.D07 import (
     part_two,
     get_wire_signal,
     Command,
+    Wire,
 )
 from Y2015 import utils
 
@@ -48,8 +49,8 @@ def test_format_instruction_not_gate():
 
 def test_get_wire_signal_returns_correct_value():
     wires = []
-    wires.append({"identifier": "x", "signal": 123})
-    wires.append({"identifier": "y", "signal": 456})
+    wires.append(Wire(identifier="x", signal=123))
+    wires.append(Wire(identifier="y", signal=456))
     result = get_wire_signal(wires, "y")
     assert result == 456
     result = get_wire_signal(wires, "x")
@@ -59,23 +60,22 @@ def test_get_wire_signal_returns_correct_value():
 def test_process_instruction_with_update_to_wire():
     command = format_instruction("x AND y -> x")
     wires = []
-    wires.append({"identifier": "x", "signal": 123})
-    wires.append({"identifier": "y", "signal": 456})
+    wires.append(Wire(identifier="x", signal=123))
+    wires.append(Wire(identifier="y", signal=456))
     expected = []
-    expected.append({"identifier": "x", "signal": 72})
-    expected.append({"identifier": "y", "signal": 456})
+    expected.append(Wire(identifier="x", signal=72))
+    expected.append(Wire(identifier="y", signal=456))
     result = process_instruction(command, wires)
     assert result == expected
-    pass
 
 
 def test_process_instruction_and():
     command = format_instruction("x AND y -> d")
     wires = []
-    wires.append({"identifier": "x", "signal": 123})
-    wires.append({"identifier": "y", "signal": 456})
+    wires.append(Wire(identifier="x", signal=123))
+    wires.append(Wire(identifier="y", signal=456))
     expected = wires.copy()
-    expected.append({"identifier": "d", "signal": 72})
+    expected.append(Wire(identifier="d", signal=72))
     result = process_instruction(command, wires)
     assert result == expected
 
@@ -84,7 +84,7 @@ def test_process_instruction_and_missing_signal():
     """Gate should not return a signal if any inputs are missing a signal"""
     command = format_instruction("x AND y -> d")
     wires = []
-    wires.append({"identifier": "y", "signal": 456})
+    wires.append(Wire(identifier="y", signal=456))
     expected = None
     result = process_instruction(command, wires)
     assert result == expected
@@ -93,10 +93,10 @@ def test_process_instruction_and_missing_signal():
 def test_process_instruction_or():
     command = format_instruction("x OR y -> e")
     wires = []
-    wires.append({"identifier": "x", "signal": 123})
-    wires.append({"identifier": "y", "signal": 456})
+    wires.append(Wire(identifier="x", signal=123))
+    wires.append(Wire(identifier="y", signal=456))
     expected = wires.copy()
-    expected.append({"identifier": "e", "signal": 507})
+    expected.append(Wire(identifier="e", signal=507))
     result = process_instruction(command, wires)
     assert result == expected
 
@@ -104,10 +104,10 @@ def test_process_instruction_or():
 def test_process_instruction_rshift():
     command = Command(wire1="y", gate="RSHIFT", shift_value=2, output_wire="g")
     wires = []
-    wires.append({"identifier": "x", "signal": 123})
-    wires.append({"identifier": "y", "signal": 456})
+    wires.append(Wire(identifier="x", signal=123))
+    wires.append(Wire(identifier="y", signal=456))
     expected = wires.copy()
-    expected.append({"identifier": "g", "signal": 114})
+    expected.append(Wire(identifier="g", signal=114))
     result = process_instruction(command, wires)
     assert result == expected
 
@@ -115,10 +115,10 @@ def test_process_instruction_rshift():
 def test_process_instruction_not():
     command = Command(wire1="y", gate="NOT", output_wire="i")
     wires = []
-    wires.append({"identifier": "x", "signal": 123})
-    wires.append({"identifier": "y", "signal": 456})
+    wires.append(Wire(identifier="x", signal=123))
+    wires.append(Wire(identifier="y", signal=456))
     expected = wires.copy()
-    expected.append({"identifier": "i", "signal": 65079})
+    expected.append(Wire(identifier="i", signal=65079))
     result = process_instruction(command, wires)
     assert result == expected
 
@@ -126,14 +126,14 @@ def test_process_instruction_not():
 def test_part_one_with_sample_data():
     instructions = utils.read_lines("data/07_test.data")
     wires = []
-    wires.append({"identifier": "x", "signal": 123})
-    wires.append({"identifier": "y", "signal": 456})
-    wires.append({"identifier": "d", "signal": 72})
-    wires.append({"identifier": "e", "signal": 507})
-    wires.append({"identifier": "f", "signal": 492})
-    wires.append({"identifier": "g", "signal": 114})
-    wires.append({"identifier": "h", "signal": 65412})
-    wires.append({"identifier": "i", "signal": 65079})
+    wires.append(Wire(identifier="x", signal=123))
+    wires.append(Wire(identifier="y", signal=456))
+    wires.append(Wire(identifier="d", signal=72))
+    wires.append(Wire(identifier="e", signal=507))
+    wires.append(Wire(identifier="f", signal=492))
+    wires.append(Wire(identifier="g", signal=114))
+    wires.append(Wire(identifier="h", signal=65412))
+    wires.append(Wire(identifier="i", signal=65079))
     result = part_one(instructions)
     assert result == wires
 
@@ -141,14 +141,14 @@ def test_part_one_with_sample_data():
 def test_part_one_with_sample_data_reordered():
     instructions = utils.read_lines("data/07_test_2.data")
     wires = []
-    wires.append({"identifier": "x", "signal": 123})
-    wires.append({"identifier": "y", "signal": 456})
-    wires.append({"identifier": "d", "signal": 72})
-    wires.append({"identifier": "e", "signal": 507})
-    wires.append({"identifier": "f", "signal": 492})
-    wires.append({"identifier": "g", "signal": 114})
-    wires.append({"identifier": "h", "signal": 65412})
-    wires.append({"identifier": "i", "signal": 65079})
+    wires.append(Wire(identifier="x", signal=123))
+    wires.append(Wire(identifier="y", signal=456))
+    wires.append(Wire(identifier="d", signal=72))
+    wires.append(Wire(identifier="e", signal=507))
+    wires.append(Wire(identifier="f", signal=492))
+    wires.append(Wire(identifier="g", signal=114))
+    wires.append(Wire(identifier="h", signal=65412))
+    wires.append(Wire(identifier="i", signal=65079))
     result = part_one(instructions, "x")
     assert result == 123
 
