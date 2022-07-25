@@ -23,8 +23,7 @@ def test_look_say_test_data(given: str, expected: str) -> None:
     assert D10.look_say(given) == expected
 
 def test_part_one()-> None:
-    assert D10.part_one("1113222113", 40) == 1
+    assert D10.part_one("1113222113", 40) == 252594
 
-@pytest.mark.skip()
-def test_part_two_correct_answer():
-    pass
+def test_part_two()-> None:
+    assert D10.part_one("1113222113", 50) == 3579328
