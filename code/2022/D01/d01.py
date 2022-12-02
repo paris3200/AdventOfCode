@@ -1,19 +1,28 @@
 from collections import defaultdict
 
-with open("input") as input:
-    data = input.readlines()
 
-elves = defaultdict(int)
+def main(file="input") -> None:
+    with open(file) as input:
+        data = input.readlines()
+
+    elves = defaultdict(int)
+
+    elf_index = 0
+    for line in data:
+        if line != "\n":
+            elves[elf_index] += int(line.strip())
+        else:
+            elf_index += 1
+
+    calories = list(elves.values())
+    calories.sort(reverse=True)
+
+    # Part 1
+    print(calories[0])
+
+    # Part 2
+    print(sum(calories[:3]))
 
 
-elf_index = 0
-most_calories = 0
-for line in data:
-    if line != "\n":
-        elves[elf_index] += int(line.strip())
-    else:
-        if elves[elf_index] > most_calories:
-            most_calories = elves[elf_index]
-        elf_index += 1
-
-print(most_calories)
+if __name__ == "__main__":
+    main()
