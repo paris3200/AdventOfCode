@@ -29,7 +29,6 @@ def part_two(file="input") -> None:
         p2 = get_needed_shape(p1, outcome)
         decrypted_lines.append(f"{p1} {p2}")
 
-
     score = 0
     for line in decrypted_lines:
         p1, p2 = line.split(" ")
@@ -38,6 +37,7 @@ def part_two(file="input") -> None:
         score += score_round(p2, outcome)
 
     print(score)
+
 
 def decrypt_guide(line: str) -> str:
     p1, p2 = line.split(" ")
