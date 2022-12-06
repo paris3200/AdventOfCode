@@ -1,5 +1,3 @@
-import pprint
-
 
 def get_lines(data) -> str:
     with open(data) as input:
@@ -25,25 +23,21 @@ def get_lines(data) -> str:
 
 
 class CargoHold:
-    def __init__(self, type="input") -> None:
+    def __init__(self, file: str = "input") -> None:
         self.stacks = {}
-        if type == "test":
-            self.stacks[1] = ["Z", "N"]
-            self.stacks[2] = ["M", "C", "D"]
-            self.stacks[3] = ["P"]
+        self.name_index = 0
+        for stack in self.get_stack_names(file):
+            self.stacks[stack] = []
 
-        if type == "input":
-            self.stacks[1] = ["R", "N", "F", "V", "L", "J", "S", "M"]
-            self.stacks[2] = ["P", "N", "D", "Z", "F", "J", "W", "H"]
-            self.stacks[3] = ["W", "R", "C", "D", "G"]
-            self.stacks[4] = ["N", "B", "S"]
-            self.stacks[5] = ["M", "Z", "W", "P", "C", "B", "F", "N"]
-            self.stacks[6] = ["P", "R", "M", "W"]
-            self.stacks[7] = ["R", "T", "N", "G", "L", "S", "W"]
-            self.stacks[8] = ["Q", "T", "H", "F", "N", "B", "V"]
-            self.stacks[9] = ["L", "M", "H", "Z", "N", "F"]
+        with open(file) as input:
+            data = input.readlines()
 
-    def move_crates(self, count: int, start_stack: int, end_stack: int) -> None:
+        for line_index, line in enumerate(data):
+            if line_index < self.name_index:
+                for index, stack in enumerate(list(line)[1::4], 1):
+                    if stack != " ":
+                        self.stacks[index].insert(0, stack)
+
     def move_crates(self, count: int, origin: int, destination: int) -> None:
         """Move each crate one at a time.
 
@@ -86,11 +80,26 @@ class CargoHold:
 
         Returns: str
             The crate on top of each stack.
+        """
         top_crates = ""
         for count, stack in self.stacks.items():
             top_crates += stack[-1]
 
         return top_crates
+
+    def get_stack_names(self, file) -> list[int]:
+        with open(file) as input:
+            data = input.readlines()
+
+        for index, line in enumerate(data):
+            if line == "\n":
+                self.name_index = index - 1
+
+        stacks = []
+        for stack in list(data[self.name_index])[1::4]:
+            stacks.append(int(stack))
+
+        return stacks
 
     def __repr__(self) -> str:
         output = ""
@@ -101,7 +110,7 @@ class CargoHold:
 
 def part_one():
     lines = get_lines("input")
-    cargo = CargoHold(type="input")
+    cargo = CargoHold(file="input")
     for line in lines:
         try:
             quantity, start, stop = line
@@ -110,12 +119,12 @@ def part_one():
 
         cargo.move_crates(quantity, start, stop)
 
-    print(cargo.top_crates())
+    return cargo.get_top_crates()
 
 
 def part_two():
     lines = get_lines("input")
-    cargo = CargoHold(type="input")
+    cargo = CargoHold(file="input")
     for line in lines:
         try:
             quantity, start, stop = line
@@ -124,9 +133,9 @@ def part_two():
 
         cargo.move_stack(quantity, start, stop)
 
-    print(cargo.top_crates())
+    return cargo.get_top_crates()
 
 
 if __name__ == "__main__":
-    part_one()
-    part_two()
+    print(part_one())
+    print(part_two())
