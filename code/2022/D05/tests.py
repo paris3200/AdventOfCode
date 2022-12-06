@@ -1,9 +1,9 @@
-from d05 import CargoHold, part_one, part_two
+from d05 import CargoHold, Parser, part_one, part_two
 
 
 def test_get_stack_names_reads_file_correctly() -> None:
-    cargo = CargoHold("test_input")
-    assert cargo.get_stack_names("test_input") == [1, 2, 3]
+    parser = Parser("test_input")
+    assert parser.get_stack_names() == [1, 2, 3]
 
 
 def test_stacks_created_in_init() -> None:

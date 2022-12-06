@@ -1,36 +1,95 @@
+class Parser:
+    def __init__(self, file):
+        self.file = file
+        self.name_index = 0
+        self.stacks = {}
+        for stack in self.get_stack_names():
+            self.stacks[stack] = []
 
-def get_lines(data) -> str:
-    with open(data) as input:
-        data = input.readlines()
+        stack_lines = self.get_inital_stacks()
+        for line in stack_lines:
+            for index, stack in enumerate(list(line)[1::4], 1):
+                if stack != " ":
+                    self.stacks[index].insert(0, stack)
 
-    lines = []
-    for line in data:
-        if line[0] == "m":
-            line = line.strip()
-            line = line.replace("move", "")
-            line = line.replace("from", ",")
-            line = line.replace("to", ",")
-            line = line.replace(" ", "")
-            line = line.split(",")
-            instruction = []
+    def get_stack_names(self) -> list[int]:
+        """Parse the input file and exract the stack names.
 
-            for item in line:
-                if item != ",":
-                    instruction.append(int(item))
-            lines.append(instruction)
+        Return
+        -------
+        List[str]
+            The stack names as ints.
+        """
+        with open(self.file) as input:
+            data = input.readlines()
 
-    return lines
+        for index, line in enumerate(data):
+            if line == "\n":
+                self.name_index = index - 1
+
+        stacks = []
+        for stack in list(data[self.name_index])[1::4]:
+            stacks.append(int(stack))
+
+        return stacks
+
+    def get_inital_stacks(self) -> list:
+        """Parse the input file and exract the lines with the initial stack makeup.
+
+        Return
+        -------
+        List[str]
+            The lines containing the initial stack makeup.
+        """
+        crate_lines = []
+
+        with open(self.file) as input:
+            data = input.readlines()
+
+        for line_index, line in enumerate(data):
+            if line_index < self.name_index:
+                crate_lines.append(line)
+
+        return crate_lines
+
+    def get_instructions(self) -> list[list[int]]:
+        """ Get instructions as a list.
+
+        Return
+        -------
+        List[List[int]]
+            The instructions.
+        """
+        with open(self.file) as input:
+            data = input.readlines()
+
+        lines = []
+        for line in data:
+            if line[0] == "m":
+                # TODO There has to be a better way.
+                line = line.strip()
+                line = line.replace("move", "")
+                line = line.replace("from", ",")
+                line = line.replace("to", ",")
+                line = line.replace(" ", "")
+                line = line.split(",")
+                instruction = []
+
+                for item in line:
+                    if item != ",":
+                        instruction.append(int(item))
+                lines.append(instruction)
+
+        return lines
 
 
 class CargoHold:
-    """ CargoHold with stacks of crates.
+    """CargoHold with stacks of crates.
 
     Attributes
     ----------
     stacks: dict[int: list[str]]
         The stacks of crates.
-    name_index: int
-        Line number of file that the stack numbers are defined.
 
     Parameters
     ----------
@@ -38,20 +97,10 @@ class CargoHold:
         Filename as a string.
 
     """
+
     def __init__(self, file: str = "input") -> None:
-        self.stacks = {}
-        self.name_index = 0
-        for stack in self.get_stack_names(file):
-            self.stacks[stack] = []
-
-        with open(file) as input:
-            data = input.readlines()
-
-        for line_index, line in enumerate(data):
-            if line_index < self.name_index:
-                for index, stack in enumerate(list(line)[1::4], 1):
-                    if stack != " ":
-                        self.stacks[index].insert(0, stack)
+        parser = Parser(file)
+        self.stacks = parser.stacks
 
     def move_crates(self, count: int, origin: int, destination: int) -> None:
         """Move each crate one at a time.
@@ -104,30 +153,6 @@ class CargoHold:
 
         return top_crates
 
-    def get_stack_names(self, file) -> list[int]:
-        """Parse the input file and exract the stack names.
-
-        Parameters
-        ----------
-
-        Return
-        -------
-        List[str]
-            The stack names as ints.
-        """
-        with open(file) as input:
-            data = input.readlines()
-
-        for index, line in enumerate(data):
-            if line == "\n":
-                self.name_index = index - 1
-
-        stacks = []
-        for stack in list(data[self.name_index])[1::4]:
-            stacks.append(int(stack))
-
-        return stacks
-
     def __repr__(self) -> str:
         output = ""
         for key, stack in self.stacks.items():
@@ -136,7 +161,8 @@ class CargoHold:
 
 
 def part_one():
-    lines = get_lines("input")
+    parser = Parser("input")
+    lines = parser.get_instructions()
     cargo = CargoHold(file="input")
     for line in lines:
         try:
@@ -150,7 +176,8 @@ def part_one():
 
 
 def part_two():
-    lines = get_lines("input")
+    parser = Parser("input")
+    lines = parser.get_instructions()
     cargo = CargoHold(file="input")
     for line in lines:
         try:
