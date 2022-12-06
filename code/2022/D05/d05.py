@@ -23,6 +23,21 @@ def get_lines(data) -> str:
 
 
 class CargoHold:
+    """ CargoHold with stacks of crates.
+
+    Attributes
+    ----------
+    stacks: dict[int: list[str]]
+        The stacks of crates.
+    name_index: int
+        Line number of file that the stack numbers are defined.
+
+    Parameters
+    ----------
+    file: str
+        Filename as a string.
+
+    """
     def __init__(self, file: str = "input") -> None:
         self.stacks = {}
         self.name_index = 0
@@ -78,7 +93,9 @@ class CargoHold:
     def get_top_crates(self) -> str:
         """Get the top crate in each stack as a string.
 
-        Returns: str
+        Return
+        ------
+        str
             The crate on top of each stack.
         """
         top_crates = ""
@@ -88,6 +105,16 @@ class CargoHold:
         return top_crates
 
     def get_stack_names(self, file) -> list[int]:
+        """Parse the input file and exract the stack names.
+
+        Parameters
+        ----------
+
+        Return
+        -------
+        List[str]
+            The stack names as ints.
+        """
         with open(file) as input:
             data = input.readlines()
 
