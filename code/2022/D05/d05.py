@@ -44,21 +44,48 @@ class CargoHold:
             self.stacks[9] = ["L", "M", "H", "Z", "N", "F"]
 
     def move_crates(self, count: int, start_stack: int, end_stack: int) -> None:
+    def move_crates(self, count: int, origin: int, destination: int) -> None:
+        """Move each crate one at a time.
+
+        Parameters
+        ----------
+        count: int
+            Number of crates to move.
+        origin: int
+            Stack to pull the crates from.
+        destination: int
+            Stack to place the crates on.
+        """
         while count > 0:
-            self.stacks[end_stack].append(self.stacks[start_stack].pop())
+            self.stacks[destination].append(self.stacks[origin].pop())
             count -= 1
 
-    def move_stack(self, count: int, start_stack: int, end_stack: int) -> None:
-        stack = self.stacks[start_stack][-count:]
+    def move_stack(self, count: int, origin: int, destination: int) -> None:
+        """Move the crates as a single unit.
+
+        Parameters
+        ----------
+        count: int
+            Number of crates to move.
+        origin: int
+            Stack to pull the crates from.
+        destination: int
+            Stack to place the crates on
+        """
+        stack = self.stacks[origin][-count:]
 
         while count > 0:
-            self.stacks[start_stack].pop()
+            self.stacks[origin].pop()
             count -= 1
 
         for item in stack:
-            self.stacks[end_stack].append(item)
+            self.stacks[destination].append(item)
 
-    def top_crates(self) -> str:
+    def get_top_crates(self) -> str:
+        """Get the top crate in each stack as a string.
+
+        Returns: str
+            The crate on top of each stack.
         top_crates = ""
         for count, stack in self.stacks.items():
             top_crates += stack[-1]
