@@ -7,7 +7,8 @@ def test_get_stack_names_reads_file_correctly() -> None:
 
 
 def test_stacks_created_in_init() -> None:
-    cargo = CargoHold("test_input")
+    parser = Parser("test_input")
+    cargo = CargoHold(parser.stacks)
     assert cargo.stacks == {1: ["Z", "N"], 2: ["M", "C", "D"], 3: ["P"]}
 
 

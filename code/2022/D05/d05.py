@@ -98,9 +98,8 @@ class CargoHold:
 
     """
 
-    def __init__(self, file: str = "input") -> None:
-        parser = Parser(file)
-        self.stacks = parser.stacks
+    def __init__(self, stacks) -> None:
+        self.stacks = stacks
 
     def move_crates(self, count: int, origin: int, destination: int) -> None:
         """Move each crate one at a time.
@@ -163,7 +162,7 @@ class CargoHold:
 def part_one():
     parser = Parser("input")
     lines = parser.get_instructions()
-    cargo = CargoHold(file="input")
+    cargo = CargoHold(parser.stacks)
     for line in lines:
         try:
             quantity, start, stop = line
@@ -178,7 +177,7 @@ def part_one():
 def part_two():
     parser = Parser("input")
     lines = parser.get_instructions()
-    cargo = CargoHold(file="input")
+    cargo = CargoHold(parser.stacks)
     for line in lines:
         try:
             quantity, start, stop = line
