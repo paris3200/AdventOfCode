@@ -49,6 +49,7 @@ def part_two(input: str):
     fs = FileSystem(root=root, threshold=None)
     used_size = fs.get_size(root)
 
+    # Calculate how much space to free up
     freespace = total_capacity - used_size
     needed_size = 30000000 - freespace
     fs = FileSystem(root=root, threshold=needed_size)

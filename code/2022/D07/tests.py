@@ -26,7 +26,7 @@ def test_get_size_files_only() -> None:
     filesystem = FileSystem(root=d)
 
     assert filesystem.get_size(d) == 24933642
-   
+
 
 def test_get_size_files_and_directories() -> None:
     root = Directory(name="/", parent=None, child_dirs=[], child_files=[])
@@ -55,7 +55,7 @@ def test_get_size_files_and_directories() -> None:
     assert fs.get_size(e) == 584
     assert fs.get_size(a) == 94853
     assert fs.get_size(root) == 48381165
-   
+
 
 def test_part_one_test_data() -> None:
     assert part_one("test_input") == 95437
@@ -63,6 +63,3 @@ def test_part_one_test_data() -> None:
 
 def test_part_two_test_data() -> None:
     assert part_two("test_input") == 24933642
-    
-
-

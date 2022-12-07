@@ -23,7 +23,7 @@ class Parser:
         if filename:
             with open(filename) as file:
                 self.lines = file.readlines()
-        
+
     def process_input(self) -> Directory:
         root = None
         current_dir = None
