@@ -81,76 +81,38 @@ class Map(Grid):
         return column
 
     def scenic_score(self, x: int, y: int) -> int:
-        return self.scenic_score_horizontal(x, y) * self.scenic_score_vertical(x, y)
+        if x == 0 or x == self.max_x - 1 or y == 0 or y == self.max_y - 1:
+            return 0
 
-    def scenic_score_horizontal(self, x: int, y: int) -> int:
         row = self.grid[y]
         left = row[:x]
+        left.reverse()
         right = row[x + 1 :]
-        if x == 0:
-            scenic_left = 0
-        else:
-            visible = []
-            for index, tree in enumerate(left):
-                if index == len(left) - 1:
-                    visible.append(tree)
-                else:
-                    if left[index] < left[index + 1]:
-                        continue
-                    else:
-                        visible.append(tree)
-            scenic_left = len(visible)
 
-        if x == self.max_x - 1:
-            scenic_right = 0
-        else:
-            visible = []
-            # calculate right
-            for index, tree in enumerate(right):
-                if index == len(right) - 1:
-                    visible.append(tree)
-                else:
-                    if right[index] < right[index + 1]:
-                        visible.append(tree)
-
-            scenic_right = len(visible)
-        return scenic_left * scenic_right
-
-
-    def scenic_score_vertical(self, x: int, y: int) -> int:
         column = self.get_column(x, y)
+        up = column[:y]
+        up.reverse()
+        down = column[y + 1 :]
 
-        top = column[:y]
-        bottom = column[y + 1 :]
+        height = self.get_point(x, y)
 
-        if y == 0:
-            scenic_top = 0
-        else:
-            visible = []
-            for index, tree in enumerate(top):
-                if index == len(top) - 1:
-                    visible.append(tree)
-                else:
-                    if top[index] <= top[index + 1]:
-                        continue
-                    else:
-                        visible.append(tree)
-            scenic_top = len(visible)
+        left_score = self.scenic_cout(left, height)
+        right_score = self.scenic_cout(right, height)
+        up_score = self.scenic_cout(up, height)
+        down_score = self.scenic_cout(down, height)
 
-        if y == self.max_x - 1:
-            scenic_bottom = 0
-        else:
-            visible = []
-            # calculate bottom
-            for index, tree in enumerate(bottom):
-                if index == len(bottom) - 1:
-                    visible.append(tree)
-                else:
-                    if bottom[index] <= bottom[index + 1]:
-                        visible.append(tree)
+        return left_score * right_score * up_score * down_score
 
-            scenic_bottom = len(visible)
-        return scenic_top * scenic_bottom
+    def scenic_cout(self, trees: list, height: int) -> int:
+        visible = []
+        for tree in trees:
+            if tree >= height:
+                visible.append(tree)
+                return len(visible)
+            else:
+                visible.append(tree)
+
+        return len(visible)
 
 
 def part_one(input: str) -> int:
@@ -173,12 +135,9 @@ def part_two(input: str) -> int:
     scenic_score = []
 
     for y, line in enumerate(map.grid):
-        row = []
         for x, char in enumerate(line):
-            row.append(map.scenic_score(x, y))
-        scenic_score.append(row)
+            scenic_score.append(map.scenic_score(x, y))
 
-    breakpoint()
     scenic_score.sort()
     return scenic_score.pop()
 

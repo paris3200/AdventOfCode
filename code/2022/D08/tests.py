@@ -75,30 +75,12 @@ def test_part_one() -> None:
     assert part_one("data/test_input") == 21
 
 
-def test_scenic_horizontal() -> None:
-    parser = Parser("data/test_input")
-    map = Map(parser.get_lines())
-
-    assert map.scenic_score_horizontal(2, 3) == 4
-    assert map.scenic_score_horizontal(2, 1) == 2
-
-
-def test_scenic_vertical() -> None:
-    parser = Parser("data/test_input")
-    map = Map(parser.get_lines())
-
-    assert map.scenic_score_vertical(2, 3) == 2
-    assert map.scenic_score_vertical(2, 1) == 2
-
-
-
 def test_scenic_score() -> None:
     parser = Parser("data/test_input")
     map = Map(parser.get_lines())
 
     assert map.scenic_score(2, 3) == 8
     assert map.scenic_score(2, 1) == 4
-
 
 
 def test_part_two() -> None:
