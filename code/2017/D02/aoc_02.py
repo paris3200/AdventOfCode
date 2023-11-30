@@ -1,4 +1,3 @@
-
 def read_lines(filename):
     with open(filename, "r") as f:
         data = f.readlines()
@@ -30,14 +29,27 @@ def part_one(lines: list[str]) -> int:
     return sum(line_checksums)
 
 
-def part_two():
-    pass
+def part_two(lines: list[str]) -> int:
+    line_checksums = []
+    for line in lines:
+        converted_line = convert_line(line)
+
+        for index, numerator in enumerate(converted_line):
+            denominators = converted_line.copy()
+            denominators.pop(index)
+
+            for denominator in denominators:
+                if numerator % denominator == 0:
+                    line_checksums.append(int(numerator / denominator))
+
+    return sum(line_checksums)
 
 
 if __name__ == "__main__":
-    print("Part One")
     lines = read_lines("input")
+
+    print("Part One")
     print(part_one(lines))
 
     print("Part Two")
-    part_two()
+    print(part_two(lines))
