@@ -1,3 +1,6 @@
+from typing import Dict
+
+
 def read_lines(filename: str) -> list[str]:
     with open(filename, "r") as f:
         data = f.readlines()
@@ -33,10 +36,10 @@ def get_calibration_words(input: str) -> int:
         "nine": 9,
     }
 
-    calibration_digits = {}
+    calibration_digits: Dict[int, int] = {}
     for index, char in enumerate(chars):
         if char.isdigit():
-            calibration_digits[index] = char
+            calibration_digits[index] = int(char)
 
     for word in number_words.keys():
         index = input.find(word)
