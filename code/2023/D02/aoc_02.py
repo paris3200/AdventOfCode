@@ -111,33 +111,33 @@ def part_one(filename: str) -> int:
     return sum_id
 
 
-# def part_one(filename: str) -> int:
-#     lines = read_lines(filename)
-#     games = create_bags(lines)
-#
-#     max_red = 12
-#     max_green = 13
-#     max_blue = 14
-#     sum_ids = 0
-#
-#     possible_games = []
-#
-#     for game in games:
-#         hands_possible = []
-#         for hand in game.hands:
-#             if (
-#                 max_red >= hand.red
-#                 and max_blue >= hand.blue
-#                 and max_green >= hand.green
-#             ):
-#                 hands_possible.append(True)
-#             else:
-#                 hands_possible.append(False)
-#
-#         if len(set(hands_possible)) == 1:
-#             possible_games.append(game.id)
-#             sum_ids += game.id
-#     return sum_ids
+def part_one_dataclass(filename: str) -> int:
+    lines = read_lines(filename)
+    games = create_bags(lines)
+
+    max_red = 12
+    max_green = 13
+    max_blue = 14
+    sum_ids = 0
+
+    possible_games = []
+
+    for game in games:
+        hands_possible = []
+        for hand in game.hands:
+            if (
+                max_red >= hand.red
+                and max_blue >= hand.blue
+                and max_green >= hand.green
+            ):
+                hands_possible.append(True)
+            else:
+                hands_possible.append(False)
+
+        if len(set(hands_possible)) == 1 and hands_possible[0] is True:
+            possible_games.append(game.id)
+            sum_ids += game.id
+    return sum_ids
 
 
 def part_two(filename: str) -> int:
