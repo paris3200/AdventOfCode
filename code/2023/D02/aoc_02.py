@@ -27,13 +27,13 @@ def read_lines(filename: str) -> list[str]:
 
 
 def game_number(game: str) -> int:
-    line_parts = game.split(':')
-    game_id = int(line_parts[0].split(' ')[1])
+    line_parts = game.split(":")
+    game_id = int(line_parts[0].split(" ")[1])
     return game_id
 
 
 def split_hands(game: str) -> list[str]:
-    line_parts = game.split(':')
+    line_parts = game.split(":")
     game_list = line_parts[1].split(";")
     for index, item in enumerate(game_list):
         game_list[index] = item.strip()
