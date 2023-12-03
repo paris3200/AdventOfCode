@@ -8,7 +8,8 @@ from aoc_02 import (
     process_hand,
     split_hands,
     part_one,
-    part_two
+    part_one_dataclass,
+    part_two,
 )
 
 
@@ -50,7 +51,7 @@ def test_split_hands(record: str, rounds: list[str]) -> None:
         ),
     ),
 )
-def test_process_hands(hand: str, result: dict[str:int]) -> None:
+def test_process_hands(hand: str, result: dict[str, int]) -> None:
     assert process_hand(hand) == result
 
 
@@ -69,6 +70,14 @@ def test_create_bags() -> None:
 
 def test_part_one_with_test_input() -> None:
     assert part_one("test_input") == 8
+
+
+def test_part_one_with_real_input() -> None:
+    assert part_one("input") == 1867
+
+
+def test_part_one_with_data_class() -> None:
+    assert part_one_dataclass("input") == 1867
 
 
 def test_part_two_with_test_input() -> None:
