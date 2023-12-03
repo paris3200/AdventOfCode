@@ -1,15 +1,15 @@
 
-def part_one():
+def part_one(filname: str):
     pass
 
 
-def part_two():
+def part_two(filname: str):
     pass
 
 
 if __name__ == "__main__":
     print("Part One")
-    part_one()
+    print(part_one("input"))
 
     print("Part Two")
-    part_two()
+    print(part_two("input"))
