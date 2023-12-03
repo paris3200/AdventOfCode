@@ -41,9 +41,7 @@ def find_parent(input: list[str], orphan: str) -> str | None:
     return None
 
 
-def part_one(filename: str) -> str | None:
-    lines = read_lines(filename)
-
+def find_root(lines: list[str]) -> str | None:
     for line in lines:
         name = line.split(" ")[0]
 
@@ -52,6 +50,11 @@ def part_one(filename: str) -> str | None:
             return name
 
     return None
+
+
+def part_one(filename: str) -> str | None:
+    lines = read_lines(filename)
+    return find_root(lines)
 
 
 def part_two(filename: str):
