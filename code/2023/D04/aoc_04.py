@@ -1,11 +1,13 @@
 from dataclasses import dataclass
 import re
+import time
 
 
 @dataclass
 class Card:
     id: int
     matches: int
+    additional_cards: dict[int, int]
 
 
 def read_lines(filename: str) -> list[str]:
@@ -25,7 +27,7 @@ def game_number(card: str) -> int:
     return int(game_id)
 
 
-def split_cards(card: str) -> list[str]:
+def split_cards(card: str) -> list[list[int]]:
     line_parts = card.split(":")
     card_list = line_parts[1].split(" | ")
 
@@ -37,7 +39,6 @@ def split_cards(card: str) -> list[str]:
 
         for y, num in enumerate(card_list[index]):
             card_list[index][y] = int(num.strip())
-
     return card_list
 
 
@@ -84,37 +85,63 @@ def part_one(filename: str) -> int:
     return total_score
 
 
-# Do not do this.  Took 30 minutes to solve.
 def part_two(filename: str):
     lines = read_lines(filename)
     cards = []
     for card in lines:
         game_id = game_number(card)
         matches = get_matches(split_cards(card))
-        cards.append(Card(id=game_id, matches=len(matches)))
+        number_of_matches: int = len(matches)
+        additional_cards = {}
+        counter = 1
+        while counter <= number_of_matches:
+            additional_cards[game_id + counter] = 1
+            counter += 1
 
-    hand = cards.copy()
-    total_cards = 0
+        cards.append(
+            Card(id=game_id, matches=len(matches), additional_cards=additional_cards)
+        )
 
-    card_counts = {}
-    for card in hand:
-        card_counts[card.id] = 0
+    card_count = [1] * len(cards)
+    for card in cards:
+        num_of_cards = card_count[card.id - 1]
+        for key, value in card.additional_cards.items():
+            card_count[key - 1] += 1 * num_of_cards
 
-    while len(hand) != 0:
-        card = hand.pop(0)
-        id = card.id
-        matches = card.matches
+    return sum(card_count)
 
-        current_card = id
-        while matches > 0:
-            hand.append(cards[current_card])
-            card_counts[cards[current_card].id] += 1
-            matches -= 1
-            current_card += 1
 
-        total_cards += 1
-
-    return total_cards
+# Do not do this.  Took 30 minutes to solve.
+# def part_two(filename: str):
+#     lines = read_lines(filename)
+#     cards = []
+#     for card in lines:
+#         game_id = game_number(card)
+#         matches = get_matches(split_cards(card))
+#         cards.append(Card(id=game_id, matches=len(matches)))
+#
+#     hand = cards.copy()
+#     total_cards = 0
+#
+#     card_counts = {}
+#     for card in hand:
+#         card_counts[card.id] = 0
+#
+#     while len(hand) != 0:
+#         card = hand.pop(0)
+#         id = card.id
+#         matches = card.matches
+#
+#         current_card = id
+#         while matches > 0:
+#             hand.append(cards[current_card])
+#             card_counts[cards[current_card].id] += 1
+#             matches -= 1
+#             current_card += 1
+#
+#         total_cards += 1
+#
+#     return total_cards
 
 
 if __name__ == "__main__":
@@ -122,4 +149,7 @@ if __name__ == "__main__":
     print(part_one("input"))
 
     print("Part Two")
+    start = time.time()
     print(part_two("input"))
+    end = time.time()
+    print(f"Time: {end - start}s")

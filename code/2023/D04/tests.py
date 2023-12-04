@@ -21,3 +21,7 @@ def test_part_one_solution() -> None:
 
 def test_part_two_test_data() -> None:
     assert part_two("test_input") == 30
+
+
+def test_part_two_solution() -> None:
+    assert part_two("input") == 9881048
