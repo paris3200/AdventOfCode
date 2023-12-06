@@ -1,3 +1,4 @@
+from itertools import pairwise
 from dataclasses import dataclass
 import pprint
 
@@ -125,32 +126,22 @@ def part_two(filename: str):
     seeds = list(map(int, seeds))
     maps = generate_maps(lines)
 
-    seeds = list(map(int, seeds))
+    location = 1000000000000
+    locations = []
+    seeds_checked = []
+    for index in range(0, len(seeds), 2):
+        x = seeds[index]
+        y = seeds[index+1]
+        for seed in range(x, x+y):
+            result = seed
+            seeds_checked.append(seed)
+            for map_table in maps:
+                result = get_destination(map_table.mappings, result)
+            # locations.append(result)
+            if result < location:
+                location = result
 
-    breakpoint()
-
-    table_index = {}
-    for index, map_range in enumerate(maps[6].mappings):
-        table_index[index] = map_range["source_start"] + map_range["dest_offset"]
-
-    sorted_table = sorted(table_index.items(), key=lambda x: x[1])
-
-    humidity_to_location_min = maps[6].mappings[7]
-
-    breakpoint()
-
-    # locations = []
-    # for seed in seeds:
-    #     # print(f"Seed: {seed}")
-    #     result = seed
-    #     for map_table in maps:
-    #         result = get_destination(map_table.mappings, result)
-    #         # print(f"{map_table.name}: {result}\n")
-    #
-    #     locations.append(result)
-    #
-    # return min(locations)
-
+    return location
 
 
 if __name__ == "__main__":
