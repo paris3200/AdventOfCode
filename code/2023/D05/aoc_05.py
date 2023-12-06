@@ -33,8 +33,9 @@ def map_to_dict(destination_start: int, source_start: int, length: int) -> dict[
     """
     source_end = source_start+length
     destination_offset = destination_start - source_start
+    destination_end = source_end+destination_offset
 
-    return {"source_start": source_start, "source_end": source_end, "dest_offset": destination_offset}
+    return {"source_start": source_start, "source_end": source_end, "dest_offset": destination_offset, "destination_start": destination_start, "destination_end": destination_end}
 
 
 def category_map(mappings: list[str]) -> list[dict[str, int]]:
@@ -118,17 +119,26 @@ def part_one(filename: str):
 
 
 def part_two(filename: str):
-    # lines = read_lines(filename)
-    # seed_line = lines.pop(0).split(':')
-    # seeds = seed_line[1].strip().split(" ")
-    # seeds = list(map(int, seeds))
-    # maps = generate_maps(lines)
-    #
-    # seeds = list(map(int, seeds))
-    #
-    # breakpoint()
-    #
-    #
+    lines = read_lines(filename)
+    seed_line = lines.pop(0).split(':')
+    seeds = seed_line[1].strip().split(" ")
+    seeds = list(map(int, seeds))
+    maps = generate_maps(lines)
+
+    seeds = list(map(int, seeds))
+
+    breakpoint()
+
+    table_index = {}
+    for index, map_range in enumerate(maps[6].mappings):
+        table_index[index] = map_range["source_start"] + map_range["dest_offset"]
+
+    sorted_table = sorted(table_index.items(), key=lambda x: x[1])
+
+    humidity_to_location_min = maps[6].mappings[7]
+
+    breakpoint()
+
     # locations = []
     # for seed in seeds:
     #     # print(f"Seed: {seed}")
@@ -140,7 +150,6 @@ def part_two(filename: str):
     #     locations.append(result)
     #
     # return min(locations)
-    pass
 
 
 

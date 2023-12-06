@@ -2,19 +2,40 @@ from aoc_05 import map_to_dict, category_map, get_destination, read_lines, part_
 
 
 def test_map_to_table() -> None:
-    assert map_to_dict(50, 98, 2) == {"source_start": 98, "source_end": 100, "dest_offset": -48}
+    assert map_to_dict(50, 98, 2) == {
+        "source_start": 98,
+        "source_end": 100,
+        "dest_offset": -48,
+        "destination_start": 50,
+        "destination_end": 52,
+    }
 
 
 def test_category_map() -> None:
     input = ["50 98 2", "52 50 3"]
-    result = [{"source_start": 98, "source_end": 100, "dest_offset": -48}, {"source_start": 50, "source_end": 53, "dest_offset": 2}]
+    result = [
+        {
+            "source_start": 98,
+            "source_end": 100,
+            "dest_offset": -48,
+            "destination_start": 50,
+            "destination_end": 52,
+        },
+        {
+            "source_start": 50,
+            "source_end": 53,
+            "dest_offset": 2,
+            "destination_start": 52,
+            "destination_end": 55,
+        },
+    ]
     assert category_map(input) == result
 
 
 def test_get_destination() -> None:
     lines = read_lines("test_input")
     seed_line = lines.pop(0)
-    seed_line = seed_line.split(':')
+    seed_line = seed_line.split(":")
     seeds = seed_line[1].strip().split(" ")
     seeds = list(map(int, seeds))
     lines.pop(0)
