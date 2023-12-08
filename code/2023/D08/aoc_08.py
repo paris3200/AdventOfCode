@@ -73,14 +73,10 @@ def solve_loop(instructions: list[str], nodes: list[Node], starting_node: Node) 
             next_node = current_node.left
         elif instruction == "R":
             next_node = current_node.right
-        # print(f"Instruction: {instruction}")
 
         current_node = nodes[next_node]
         result = current_node.label[2]
-        # print(f"Next Node: {current_node}")
         counter += 1
-        # print(f"{counter}: {results}")
-        # breakpoint()
     return counter
 
 
