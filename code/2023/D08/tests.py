@@ -1,4 +1,4 @@
-from aoc_08 import part_one, get_starting_nodes, read_lines, create_nodes
+from aoc_08 import part_one, get_starting_nodes, read_lines, create_nodes, part_two
 
 
 def test_part_one_test_input() -> None:
@@ -18,3 +18,7 @@ def test_get_starting_nodes() -> None:
         labels.append(node.label)
 
     assert labels == ["11A", "22A"]
+
+
+def test_part_two() -> None:
+    assert part_two("input") == 21083806112641

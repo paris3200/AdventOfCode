@@ -1,4 +1,5 @@
 from dataclasses import dataclass
+from math import lcm
 from itertools import cycle
 
 
@@ -36,7 +37,7 @@ def get_Node(nodes: list[Node], label: str) -> Node:
             return node
 
 
-def get_node_index(nodes: list[Node], label: str) -> Node:
+def get_node_index(nodes: list[Node], label: str) -> int:
     for index, node in enumerate(nodes):
         if node.label == label:
             return index
@@ -61,6 +62,28 @@ def read_lines(filename: str) -> list[str]:
     return lines
 
 
+def solve_loop(instructions: list[str], nodes: list[Node], starting_node: Node) -> int:
+    pool = cycle(instructions)
+    result = ""
+    current_node = starting_node
+    counter = 0
+    while result != "Z":
+        instruction = next(pool)
+        if instruction == "L":
+            next_node = current_node.left
+        elif instruction == "R":
+            next_node = current_node.right
+        # print(f"Instruction: {instruction}")
+
+        current_node = nodes[next_node]
+        result = current_node.label[2]
+        # print(f"Next Node: {current_node}")
+        counter += 1
+        # print(f"{counter}: {results}")
+        # breakpoint()
+    return counter
+
+
 def part_one(filename: str):
     lines = read_lines(filename)
 
@@ -69,7 +92,6 @@ def part_one(filename: str):
         instructions.append(instruction)
 
     nodes = create_nodes(lines)
-
     pool = cycle(instructions)
 
     current_node = get_Node(nodes, "AAA")
@@ -96,32 +118,21 @@ def part_two(filename: str):
     instructions = []
     for instruction in lines.pop(0):
         instructions.append(instruction)
-    pool = cycle(instructions)
 
     nodes = replace_with_index(create_nodes(lines))
-    current_nodes = get_starting_nodes(nodes)
-    # print(f"Start Nodes: {current_nodes}")
-    counter = 0
-    results = len(current_nodes) * ["A"]
+    start_nodes = get_starting_nodes(nodes)
 
-    while set(results) != {"Z"}:
-        instruction = next(pool)
-        for index, node in enumerate(current_nodes):
-            current_node = node
-            if instruction == "L":
-                next_node = current_node.left
-            elif instruction == "R":
-                next_node = current_node.right
-            # print(f"Instruction: {instruction}")
-
-            current_nodes[index] = nodes[next_node]
-            results[index] = current_nodes[index].label[2]
-            # print(f"Next Node: {current_node}")
-        counter += 1
-        # print(f"{counter}: {results}")
-        # breakpoint()
-
-    return counter
+    loop_result = []
+    for node in start_nodes:
+        loop_result.append(solve_loop(instructions, nodes, node))
+    return lcm(
+        loop_result[0],
+        loop_result[1],
+        loop_result[2],
+        loop_result[3],
+        loop_result[4],
+        loop_result[5],
+    )
 
 
 if __name__ == "__main__":
