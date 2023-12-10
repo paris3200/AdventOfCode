@@ -127,7 +127,22 @@ def create_grid(filename: str) -> Grid:
     return grid
 
 
-def part_one(filename: str):
+def visualize_path(filename: str) -> None:
+    grid = create_grid(filename)
+    path = solve_grid(filename)
+    with open("result_maze.md", "w") as file:
+        for y in range(0, grid.max_y):
+            for x, char in enumerate(grid.grid[y]):
+                if [x, y] in path:
+                    grid.grid[y][x] = "**" + char + "**"
+
+        for y in range(0, grid.max_y):
+            line = " ".join(grid.grid[y])
+            file.write(line)
+            file.write("\n")
+
+
+def solve_grid(filename) -> list[list[int]]:
     grid = create_grid(filename)
 
     # print(grid)
@@ -144,12 +159,18 @@ def part_one(filename: str):
         for path in paths:
             point = path[-1]
             if point == start:
-                return floor(len(path) / 2)
+                return path
             else:
                 nodes = get_next_node(grid, point[0], point[1], path[-2])
                 if len(nodes) < 1:
                     breakpoint()
                 path.append(nodes[0])
+
+
+def part_one(filename: str):
+    visualize_path(filename)
+    path = solve_grid(filename)
+    return floor(len(path) / 2)
 
 
 def part_two(filename: str):
@@ -158,7 +179,7 @@ def part_two(filename: str):
 
 if __name__ == "__main__":
     print("Part One")
-    print(part_one("input"))
+    print(part_one("test_input"))
 
     print("Part Two")
     print(part_two("input"))
