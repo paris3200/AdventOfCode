@@ -130,16 +130,14 @@ def create_grid(filename: str) -> Grid:
 def visualize_path(filename: str) -> None:
     grid = create_grid(filename)
     path = solve_grid(filename)
-    with open("result_maze.md", "w") as file:
-        for y in range(0, grid.max_y):
-            for x, char in enumerate(grid.grid[y]):
-                if [x, y] in path:
-                    grid.grid[y][x] = "**" + char + "**"
+    for y in range(0, grid.max_y):
+        for x, char in enumerate(grid.grid[y]):
+            if [x, y] in path:
+                grid.grid[y][x] = "\033[31;47m" + char + "\033[m"
 
-        for y in range(0, grid.max_y):
-            line = "".join(grid.grid[y])
-            file.write(line + "  \n")
-            file.write("  \n")
+    for y in range(0, grid.max_y):
+        line = "".join(grid.grid[y])
+        print(line)
 
 
 def solve_grid(filename) -> list[list[int]]:
