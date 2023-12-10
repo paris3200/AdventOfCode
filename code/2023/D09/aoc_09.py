@@ -13,10 +13,7 @@ def read_lines(filename: str) -> list[str]:
 
 
 def get_node_difference(node1: int, node2: int) -> int:
-    if isinstance(node1, int):
-        return node2 - node1
-    else:
-        breakpoint()
+    return node2 - node1
 
 
 def solve_missing(num1: int, result: int) -> int:
@@ -24,7 +21,7 @@ def solve_missing(num1: int, result: int) -> int:
 
 
 def solve_missing_up(num1: int, result: int) -> int:
-    return -(result-num1)
+    return result - num1
 
 
 def reduce_sequence(sequence: list[int]) -> list[int]:
@@ -49,7 +46,7 @@ def solve_sequence_up(sequences: list[list[int]]) -> list[list[int]]:
     sequences[end_index].append(0)
     for index in range(end_index, -1, -1):
         if index != end_index:
-            solution = solve_missing_up(sequences[index + 1][-1], sequences[index][-1])
+            solution = solve_missing(sequences[index + 1][-1], sequences[index][-1])
             sequences[index].append(solution)
 
     return sequences
@@ -60,7 +57,7 @@ def solve_sequence_up_front(sequences: list[list[int]]) -> list[list[int]]:
     sequences[end_index].append(0)
     for index in range(end_index, -1, -1):
         if index != end_index:
-            solution = solve_missing(sequences[index + 1][0], sequences[index][0])
+            solution = solve_missing_up(sequences[index + 1][0], sequences[index][0])
             sequences[index].insert(0, solution)
 
     return sequences
@@ -131,11 +128,10 @@ def part_two(filename: str):
         solution = solve_sequence_up_front(sequence)
         # write_sequence(solution)
         final_sequences.append(solution)
-    breakpoint()
 
     values = []
     for sequence in final_sequences:
-        values.append(sequence[0][-1])
+        values.append(sequence[0][0])
 
     # print(values)
     return sum(values)
@@ -146,4 +142,4 @@ if __name__ == "__main__":
     print(part_one("input"))
 
     print("Part Two")
-    print(part_two("test_input"))
+    print(part_two("input"))
