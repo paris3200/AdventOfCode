@@ -137,9 +137,9 @@ def visualize_path(filename: str) -> None:
                     grid.grid[y][x] = "**" + char + "**"
 
         for y in range(0, grid.max_y):
-            line = " ".join(grid.grid[y])
-            file.write(line)
-            file.write("\n")
+            line = "".join(grid.grid[y])
+            file.write(line + "  \n")
+            file.write("  \n")
 
 
 def solve_grid(filename) -> list[list[int]]:
@@ -179,7 +179,7 @@ def part_two(filename: str):
 
 if __name__ == "__main__":
     print("Part One")
-    print(part_one("test_input"))
+    print(part_one("input"))
 
     print("Part Two")
     print(part_two("input"))
