@@ -94,7 +94,6 @@ class Grid:
         distance = abs(point1[0] - point2[0]) + abs(point1[1] - point2[1])
         return abs(distance)
 
-
     def expand_grid(self) -> None:
         """
         Expand grid if the row or column is equal to value.
@@ -135,7 +134,18 @@ class Grid:
             if set(column) == {"."}:
                 self.expand_columns.append(x)
 
+    def get_expansion_count(self, point1: list[int], point2: list[int]) -> list[int]:
+        expanded_rows = []
+        expanded_columns = []
+        for row in self.expand_rows:
+            if min(point1[1], point2[1]) < row < max(point1[1], point2[1]):
+                expanded_rows.append(row)
 
+        for column in self.expand_columns:
+            if min(point1[0], point2[0]) < column < max(point1[0], point2[0]):
+                expanded_columns.append(column)
+
+        return [len(expanded_columns), len(expanded_rows)]
 
     def expand_column(self) -> None:
         """
