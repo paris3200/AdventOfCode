@@ -23,6 +23,8 @@ class Grid:
         self.max_x = x
         self.max_y = y
         self.galaxies = []
+        self.expand_rows = []
+        self.expand_columns = []
 
     def set_point(self, x: int, y: int, value: str) -> None:
         """Sets the point at location x,y to value.
@@ -116,6 +118,24 @@ class Grid:
                 counter += 1
 
         self.max_y = len(self.grid)
+
+    def get_rows_to_expand(self) -> None:
+        for y, line in enumerate(self.grid.copy()):
+            if set(line) == {"."}:
+                self.expand_rows.append(y)
+
+    def get_columns_to_expand(self) -> None:
+        grid_copy = self.grid.copy()
+        column = []
+        for x in range(0, self.max_x):
+            column.clear()
+            for y in range(0, self.max_y):
+                column.append(grid_copy[y][x])
+
+            if set(column) == {"."}:
+                self.expand_columns.append(x)
+
+
 
     def expand_column(self) -> None:
         """
