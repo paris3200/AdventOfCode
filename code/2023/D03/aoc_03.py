@@ -1,4 +1,5 @@
 import re
+from grid import Grid
 
 
 def read_lines(filename: str) -> list[str]:
@@ -21,7 +22,6 @@ def is_symbol(char: str) -> bool:
         return False
     else:
         return True
-
 
 def get_numbers(line: str) -> list[str]:
     numbers = re.findall(r"[0-9]+", line)
@@ -99,8 +99,45 @@ def part_one(filename: str, result_file: str):
     return sum(valid_numbers)
 
 
+def create_grid(filename: str) -> Grid:
+    lines = read_lines(filename)
+    length_x = len(lines[0])
+    length_y = len(lines)
+    grid = Grid(length_x, length_y, default_value=".")
+
+    for y, line in enumerate(lines):
+        for x, char in enumerate(line):
+            grid.set_point(x=x, y=y, value=char)
+
+    return grid
+
+
+def get_gear_numbers(grid, numeric_points: list[list[int]]) -> list[int] | None:
+    num1 = []
+    num2 = []
+    for point in numeric_points:
+        if len(num1) == 0:
+            num1.append(point)
+        elif num1[0][1] == point[1]:
+            num1.append(point)
+        elif len(num2) == 0:
+            num2.append(point)
+    breakpoint()
+
+
 def part_two(filename: str):
-    pass
+    grid = create_grid(filename)
+    asterisks = grid.get_matching_points("*")
+
+    for asterisk in asterisks:
+        points = grid.get_adjacent_points(asterisk[0], asterisk[1])
+        numeric_points = []
+
+        for point in points:
+            if grid.get_point(point[0], point[1]).isnumeric():
+                numeric_points.append(point)
+    breakpoint()
+    print(grid)
 
 
 if __name__ == "__main__":
@@ -108,4 +145,4 @@ if __name__ == "__main__":
     print(part_one("input", "results"))
 
     print("Part Two")
-    print(part_two("input"))
+    print(part_two("test_input"))

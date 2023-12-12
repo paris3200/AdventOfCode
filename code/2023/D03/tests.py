@@ -1,4 +1,4 @@
-from aoc_03 import is_symbol, part_one, validate_row, get_numbers
+from aoc_03 import is_symbol, part_one, validate_row, get_numbers, create_grid, get_gear_numbers
 
 
 def test_is_symbol_false() -> None:
@@ -54,3 +54,9 @@ def test_part_one_wrong_answers() -> None:
     assert part_one("input", "results") != 572801
     assert part_one("input", "results") != 552433
     assert part_one("input", "results") == 556367
+
+
+def test_get_gear_numbers() -> None:
+    grid = create_grid("test_input")
+    points = [[5, 9], [6, 7], [6, 9]]
+    assert get_gear_numbers(grid, points) == [598, 755]
