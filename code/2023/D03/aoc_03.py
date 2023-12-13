@@ -123,7 +123,7 @@ def expand_number(grid: Grid, coordinates: list[list[int]]) -> int:
     # Check left
     next_point = grid.get_point(min(x_range) - 1, y_range[0])
     while next_point.isnumeric() is True:
-        x_range.append(min(x_range)-1)
+        x_range.append(min(x_range) - 1)
         if min(x_range) > 0:
             next_point = grid.get_point(min(x_range) - 1, y_range[0])
         else:
@@ -132,8 +132,8 @@ def expand_number(grid: Grid, coordinates: list[list[int]]) -> int:
     # Check right
     next_point = grid.get_point(max(x_range) + 1, y_range[0])
     while next_point.isnumeric() is True:
-        x_range.append(max(x_range)+1)
-        if max(x_range) < grid.max_x-1:
+        x_range.append(max(x_range) + 1)
+        if max(x_range) < grid.max_x - 1:
             next_point = grid.get_point(max(x_range) + 1, y_range[0])
         else:
             next_point = "."
@@ -146,22 +146,25 @@ def expand_number(grid: Grid, coordinates: list[list[int]]) -> int:
     return int("".join(numbers))
 
 
-def get_gear_numbers(grid, numeric_points: list[list[int]]) -> list[int] | None:
+def get_gear_numbers(grid, numeric_points: list[list[int]]) -> int:
     num1 = []
     num2 = []
     for point in numeric_points:
         if len(num1) == 0:
             num1.append(point)
-        elif num1[0][1] == point[1]:
+        elif num1[0][1] == point[1] and (
+            max(num1)[0] + 1 == point[0] or min(num1)[0] - 1 == point[0]
+        ):
             num1.append(point)
         elif len(num2) == 0:
             num2.append(point)
-        elif num2[0][1] == point[1]:
+        elif num2[0][1] == point[1] and (
+            max(num2)[0] + 1 == point[0] or min(num2)[0] - 1 == point[0]
+        ):
             num2.append(point)
 
     if num2 == []:
         return 0
-
 
     num1_int = expand_number(grid, num1)
     num2_int = expand_number(grid, num2)
@@ -184,13 +187,12 @@ def part_two(filename: str):
 
         gear_numbers.append(get_gear_numbers(grid, numeric_points))
 
-
     return sum(gear_numbers)
 
 
 if __name__ == "__main__":
-    # print("Part One")
-    # print(part_one("input", "results"))
+    print("Part One")
+    print(part_one("input", "results"))
 
     print("Part Two")
     print(part_two("input"))

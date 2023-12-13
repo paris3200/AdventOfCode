@@ -77,3 +77,4 @@ def test_part_two_test_input() -> None:
 def test_part_two_input() -> None:
     assert part_two("input") > 42756452
     assert part_two("input") > 80867946
+    assert part_two("input") < 100477302
