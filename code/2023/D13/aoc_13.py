@@ -70,3 +70,60 @@ def check_horizontal(grid: Grid) -> int:
     return 0
 
 
+def check_vertical(grid: Grid) -> int:
+    match_location = 0
+    count_above_fold = 0
+    lines_above = []
+    lines_below = []
+    for x in range(1, grid.max_y-1):
+        row1 = grid.get_row(x)
+        row2 = grid.get_row(x+1)
+        if row1 == row2:
+            lines_above.append(row1)
+            lines_below.append(row2)
+            match_location = x
+            count_above_fold += 1
+    
+    count = match_location
+    
+    x = match_location
+    above= []
+    below=[]
+    while x > 0:
+        x -= 1
+        above.append(x)
+
+    x = match_location+1
+    while x < grid.max_y-1:
+        x += 1
+        below.append(x)
+
+    if len(above) > len(below):
+        above.pop()
+    elif len(below) > len(above):
+        below.pop()
+    
+    while len(above) != 0:
+        row1 = grid.get_row(above.pop(0))
+        row2 = grid.get_row(below.pop(0))
+        if row1 == row2:
+            count += 1
+            count_above_fold += 1
+    
+    if (match_location + count_above_fold + 1) == grid.max_y or match_location - count_above_fold == 0:
+        return count_above_fold
+    return 0
+def part_one(filename: str):
+    pass
+
+
+def part_two(filename: str):
+    pass
+
+
+if __name__ == "__main__":
+    print("Part One")
+    print(part_one("input"))
+
+    print("Part Two")
+    print(part_two("input"))
