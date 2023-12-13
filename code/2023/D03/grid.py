@@ -48,7 +48,10 @@ class Grid:
         -------
         int: Value of point at [x, y]
         """
+        # try:
         return self.grid[y][x]
+        # except:
+        #     raise Exception(f"Error ({y}, {x}) is out of bounds. \n Max X: {self.max_x}, Max Y: {self.max_y}")
 
     def get_matching_points(self, value: str) -> list[list[int]]:
         """
@@ -88,11 +91,16 @@ class Grid:
         adjacent_points.append([x - 1, y])
         adjacent_points.append([x + 1, y])
         adjacent_points.append([x + 1, y + 1])
-        adjacent_points.append([x, y+1])
-        adjacent_points.append([x - 1, y+1])
+        adjacent_points.append([x, y + 1])
+        adjacent_points.append([x - 1, y + 1])
 
         for point in adjacent_points.copy():
-            if point[0] > self.max_x or point[0] == -1 or point[1] == -1 or point[1] > self.max_y:
+            if (
+                point[0] > self.max_x
+                or point[0] == -1
+                or point[1] == -1
+                or point[1] > self.max_y
+            ):
                 adjacent_points.remove(point)
 
         adjacent_points.sort()
