@@ -1,4 +1,3 @@
-
 class Grid:
     """
     A 2D grid that uses x for the horizontal dimensions and y for the vertical dimenions.
@@ -73,6 +72,6 @@ class Grid:
     def __repr__(self):
         grid_str = ""
         for y in range(0, self.max_y):
-            line = " ".join(self.grid[y])
+            line = "".join(self.grid[y])
             grid_str = grid_str + f"{line}\n"
         return grid_str
