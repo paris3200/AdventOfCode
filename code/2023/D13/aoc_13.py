@@ -12,6 +12,8 @@ def read_lines(filename: str) -> list[str]:
             lines.append(line)
         else:
             lines.append("---")
+            
+    lines.append("---")
     return lines
 
 
@@ -67,7 +69,7 @@ def find_vertical_mirror(grid: Grid) -> list[int]:
     for x in range(0, grid.max_x - 1):
         row1 = grid.get_column(x)
         row2 = grid.get_column(x + 1)
-        breakpoint()
+        # breakpoint()
         if row1 == row2:
             return [x, x + 1]
 
@@ -114,7 +116,7 @@ def part_one(filename: str):
     rows = []
 
     for grid in grids:
-        # print(grid)
+        print(grid)
         horizontal = check_horizontal(grid)
         if horizontal == 0:
             vertical = check_vertical(grid)
