@@ -18,6 +18,7 @@ def read_lines(filename: str) -> list[str]:
 
 
 def create_grid(lines: list[str]) -> Grid:
+    breakpoint()
     if lines[-1] == "---":
         lines.pop()
     length_x = len(lines[0])
@@ -32,65 +33,65 @@ def create_grid(lines: list[str]) -> Grid:
 
 
 def find_horizontal_mirror(grid: Grid) -> list[int]:
+    mirror_lines = []
     for x in range(0, grid.max_y - 1):
         row1 = grid.get_row(x)
         row2 = grid.get_row(x + 1)
         if row1 == row2:
-            return [x, x + 1]
+            mirror_lines.append([x, x + 1])
+    return mirror_lines
 
 
 def check_horizontal(grid: Grid) -> int:
-    fold = find_horizontal_mirror(grid)
+    folds = find_horizontal_mirror(grid)
 
-    # breakpoint()
+    if folds:
+        for fold in folds:
+            above_indexes = list(range(0, fold[0]))
+            below_indexes = list(range(fold[1] + 1, grid.max_y))
+            if above_indexes == [] or below_indexes == []:
+                return fold[0] + 1
 
-    if fold:
-        above_indexes = list(range(0, fold[0]))
-        below_indexes = list(range(fold[1] + 1, grid.max_y))
+            min_length = min(len(above_indexes), len(below_indexes))
+            above_indexes = above_indexes[-1:-(min_length+1):-1]
+            below_indexes = below_indexes[:min_length]
 
-        # breakpoint()
+            if grid.get_row(above_indexes[-1]) == grid.get_row(below_indexes[-1]):
+                return fold[0] + 1
 
-        if above_indexes == [] or below_indexes == []:
-            return fold[0] + 1
-
-        min_length = min(len(above_indexes), len(below_indexes))
-        above_indexes = above_indexes[-1:-(min_length+1):-1]
-        below_indexes = below_indexes[:min_length]
-
-        if grid.get_row(above_indexes[-1]) == grid.get_row(below_indexes[-1]):
-            return fold[0] + 1
-
-        return 0
+            return 0
 
     return 0
 
 
 def find_vertical_mirror(grid: Grid) -> list[int]:
+    mirror_lines = []
     for x in range(0, grid.max_x - 1):
         row1 = grid.get_column(x)
         row2 = grid.get_column(x + 1)
-        # breakpoint()
         if row1 == row2:
-            return [x, x + 1]
+            mirror_lines.append([x, x + 1])
+    return mirror_lines
 
 
 def check_vertical(grid: Grid) -> int:
-    fold = find_vertical_mirror(grid)
-    if fold:
-        above_indexes = list(range(0, fold[0]))
-        below_indexes = list(range(fold[1] + 1, grid.max_x))
+    folds = find_vertical_mirror(grid)
+    if folds:
+        for fold in folds:
+            above_indexes = list(range(0, fold[0]))
+            below_indexes = list(range(fold[1] + 1, grid.max_x))
 
-        if above_indexes == [] or below_indexes == []:
-            return fold[0] + 1
+            if above_indexes == [] or below_indexes == []:
+                return fold[0] + 1
 
-        min_length = min(len(above_indexes), len(below_indexes))
-        above_indexes = above_indexes[-1:-(min_length+1):-1]
-        below_indexes = below_indexes[:min_length]
+            min_length = min(len(above_indexes), len(below_indexes))
+            above_indexes = above_indexes[-1:-(min_length+1):-1]
+            below_indexes = below_indexes[:min_length]
 
-        if grid.get_column(above_indexes[-1]) == grid.get_column(below_indexes[-1]):
-            return fold[0]+1
+            if grid.get_column(above_indexes[-1]) == grid.get_column(below_indexes[-1]):
+                return fold[0]+1
 
-        return 0
+            return 0
     return 0
 
 
