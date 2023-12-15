@@ -1,6 +1,3 @@
-from os import walk
-
-
 class Grid:
     """
     A 2D grid that uses x for the horizontal dimensions and y for the vertical dimenions.
