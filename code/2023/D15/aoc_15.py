@@ -1,5 +1,3 @@
-
-
 def read_lines(filename: str) -> list[str]:
     with open(filename, "r") as f:
         data = f.readlines()
@@ -24,6 +22,14 @@ def hash_char(char: str, current_value: int) -> int:
     return current_value
 
 
+def hash_label(label: str) -> int:
+        current_value = 0
+        for char in label:
+            current_value = hash_char(char, current_value)
+        return current_value
+
+
+
 def part_one(filename: str):
     lines = read_lines(filename)
     sequence = lines[0].split(",")
@@ -40,7 +46,14 @@ def part_one(filename: str):
 
 
 def part_two(filename: str):
-    pass
+    lines = read_lines(filename)
+    sequence = lines[0].split(",")
+    boxes = []
+    for num in range(0, 256):
+        boxes.append([])
+
+    for word in sequence:
+        ...
 
 
 if __name__ == "__main__":
